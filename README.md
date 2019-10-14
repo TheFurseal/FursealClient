@@ -18,4 +18,4 @@ npm start
 
 ## Contact
 
-If you would like to help us or encounter some problems, please contact [JohnSuu](JohnSuu@cotnetwork.com), I'll reply you ASAP.
+If you would like to help us or encountered some problems, please contact [JohnSuu](JohnSuu@cotnetwork.com), I'll reply you ASAP.

@@ -62,6 +62,7 @@ typings/
 # next.js build output
 .next
 
-Furseal/
-
+Furseal
 package-lock.json
+dist
+Furseal

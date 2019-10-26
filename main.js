@@ -2,6 +2,7 @@
 const {app, BrowserWindow,dialog} = require('electron')
 const path = require('path')
 const ipcMain = require('electron').ipcMain
+const process = require('process')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -36,8 +37,10 @@ function createWindow () {
   mainWindow.loadFile('index.html')
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
-
+  if(process.env.COT_DEV == true){
+    mainWindow.webContents.openDevTools()
+  }
+ 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows

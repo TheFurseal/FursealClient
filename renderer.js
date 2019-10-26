@@ -90,7 +90,7 @@ function constructList(parent,data){
         icon.id = 'taskListBarFlag_'+key;
         if(data.unprotected.status == 'init'){
             icon.style.backgroundImage = "url('./images/flagProcess.png')";
-        }else if(data.unprotected.status == 'working'){
+        }else if(data.unprotected.status == 'processing'){
             icon.style.backgroundImage = "url('./images/flagProcess.png')";
         }else if(data.unprotected.status == 'finish'){
             icon.style.backgroundImage = "url('./images/flagFinish.png')";
@@ -180,7 +180,7 @@ function constructList(parent,data){
        tmp = document.getElementById('taskListBarFlag_'+key)
         if(data.unprotected.status == 'init'){
             tmp.style.backgroundImage = "url('./images/flagProcess.png')";
-        }else if(data.unprotected.status == 'working'){
+        }else if(data.unprotected.status == 'processing'){
             tmp.style.backgroundImage = "url('./images/flagProcess.png')";
         }else if(data.unprotected.status == 'finish'){
             tmp.style.backgroundImage = "url('./images/flagFinish.png')";
@@ -252,11 +252,10 @@ function createBlockSubMenu(data){
     if(rgb2hex(color) == '#abaaa9'){
         status = 'init'
     }else if(rgb2hex(color)  == '#617bfa'){
-        status = 'working'
+        status = 'processing'
     }else if(rgb2hex(color)  == '#73c700'){
-        status = 'finish'
+        status = 'validated'
     }else if(rgb2hex(color)  == '#ffd700'){
-        
         status = 'preDone'
     } else{
         status = 'unknown'
@@ -636,7 +635,7 @@ function resetDividorStatus(obj){
 }
 
 function updateActiveDividor(ret){
-
+    console.log('Update active dividor')
     if(ret == null){
         console.error('Empty dividor info')
         return
@@ -2541,6 +2540,11 @@ function pageCommon(location){
     }
     titleWrapper.appendChild(searchBar);
 
+    // //transfer status
+    // var transfer = document.createElement('div')
+    // transfer.className = 'transferStatus'
+    // titleWrapper.appendChild(transfer);
+
     var menuWrapper = document.createElement('div');
     menuWrapper.className = 'sideMenuWrapper';
     mainWrapper.appendChild(menuWrapper);
@@ -2559,12 +2563,8 @@ function pageCommon(location){
    
 
     menuHome.onclick = function(){
-       
         pageLocation = menuHome.id;
         mainPage();
-      
-        
-
     }
     menuWrapper.appendChild(menuHome);
 
@@ -2612,6 +2612,7 @@ function pageCommon(location){
     var dividorInfo = document.createElement('div')
     dividorInfo.className = 'dividorInfo'
     dividorInfo.id = 'dividorInfo'
+    console.log('update active dividor request')
     ipcManager.clientEmit(
         'updateActiveDividor',
         "null"
@@ -2983,17 +2984,15 @@ function updateBlockStatus(data){
        
             var tmp = document.getElementById(id)
             if(tmp != null){
-                if(data[i].status == 'finish'){
+                if(data[i].status == 'validated'){
                     tmp.style.backgroundColor = '#73c700'
-                }else if(data[i].status == 'preDone'){
-                    tmp.style.backgroundColor = '#ffd700'
                 }else if(data[i].status == 'init'){
                     tmp.style.backgroundColor = '#abaaa9'
-                }else if(data[i].status == 'working'){
+                }else if(data[i].status == 'processing'){
                     tmp.style.backgroundColor = '#617bfa'
-                    
-                    
                     // TODO
+                }else if(data[i].status == 'preDone'){
+                    tmp.style.backgroundColor = '#ffd700'
                 }
             }else{
             
@@ -3002,8 +3001,6 @@ function updateBlockStatus(data){
         }else{
 
         }
-      
-       
         var tmp = document.getElementById('detailTextStatus_'+data[i].workName)
         if(tmp != null){
             var subTmp = document.getElementById('taskListBarFlag_'+data[i].workName)
@@ -3022,6 +3019,11 @@ function updatePreview(data){
     
 }
 
+ipcManager.addClientListenner('transferSatus',(data) => {
+    console.log('Transfer status')
+    console.log(data)
+})
+
 ipcManager.addClientListenner('gotBlockInfo',(data) => {
     createBlockSubMenu(data)
 })
@@ -3034,6 +3036,8 @@ ipcManager.addClientListenner('login',(data) => {
     if(data.status == 'YES'){
         window.nodeCore.process();
         mainPage();
+    }else{
+        console.error(data)
     }
 })
 ipcManager.addClientListenner('register',(data) => {

@@ -1,6 +1,6 @@
 # FursealClient
-The Furseal client using Electron.
-This just a simple UI for Furseal core. we need your help to make it cooler.
+The Furseal client uses Electron.
+This is just a simple UI for Furseal core. We would love to have your help to make it cooler.
 
 ## Dependency
 
@@ -18,4 +18,4 @@ npm start
 
 ## Contact
 
-If you want help us or have some problems. please contact [JohnSuu](JohnSuu@cotnetwork.com), I'll reply you as soon as possible.
+If you would like to help us or encountered some problems, please contact [JohnSuu](JohnSuu@cotnetwork.com), I'll reply you ASAP.

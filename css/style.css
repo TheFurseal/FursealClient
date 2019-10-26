@@ -30,7 +30,29 @@
     -webkit-app-region: drag;
 }
 
+/* .transferStatus{
+    position: absolute;
+    height: 60%;
+    width: 20%;
+    margin-left: 78%;
+    margin-top: 1%;
+    border-radius: 30px;
+    color: #f8f9fe;
+    box-shadow: none;
+    border: 1px solid #47546e;
+    text-indent: 20px;
+    transition : width .2s, height .2s , opacity 0.2s 0.2s;
+    background-repeat: no-repeat;
+    background-size: 10% 70%;
+    background-position-y: 50%;
+    background-position-x: 10px;
+    background-image: url('../images/transfer.png');
+    
+    
+} */
+
 .searchBar{
+    position: absolute;
     height: 60%;
     width: 25%;
     margin-left: 25%;

@@ -18,15 +18,17 @@ const app = remote.app;
 
 window.appPath = app.getPath('appData')+'/CoTNetwork';
 window.tempPath = app.getPath('temp')+'/CoTNetwork';
-console.log(window.appPath);
-
 const core = require('./Furseal/index.js');
 window.nodeCore = new core(window.appPath)
 window.nodeCore.init()
 
+remote.app.on('before-quit',() => {
+  console.log('befor quit')
+  window.nodeCore.p2pNode.shutdown()
+  console.log('shutdown')
+})
+
 window.ipcRender = require('electron').ipcRenderer;
-
-
 window.code = Tools.base58;
 
 const Buffer = require('buffer');
@@ -39,9 +41,6 @@ process.once('loaded', () => {
   global.clearImmediate = _clearImmediate
 })
 
-window.localStorage.debug = ''
-
-console.log('preload '+Tools.process.pid)
 
 
 

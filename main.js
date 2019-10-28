@@ -1,6 +1,6 @@
 // Modules to control application life and create native browser window
 const electron = require('electron')
-const {app, BrowserWindow,dialog,Tray,Menu} = electron
+const {app, BrowserWindow,dialog} = electron
 const path = require('path')
 const ipcMain = require('electron').ipcMain
 const process = require('process')
@@ -70,12 +70,12 @@ function createWindow () {
     })
     dialog.showMessageBox(baseWin,
      options,(ret) => {
-     
-      console.log(ret)
       if(ret == 0){
         console.log('desdroy core')
         baseWin.close()
+        //mainWindow.minimize()
         mainWindow.destroy()
+        event.returnValue = true
       }else if(ret == 2){
         baseWin.close()
         mainWindow.minimize()
@@ -83,7 +83,7 @@ function createWindow () {
       }
     })
   })
-  
+
 }
 
 

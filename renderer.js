@@ -2505,6 +2505,22 @@ function pageCommon(location){
     titleWrapper.className = 'titleWrapper';
     mainWrapper.appendChild(titleWrapper);
 
+    var breath = document.createElement('div')
+    breath.className = 'breath-light'
+    breath.innerHTML = '算力共享中'
+    breath.onclick = function(){
+        if(breath.className == 'breath-light'){
+            breath.className = 'breath-light2'
+            breath.innerHTML = '共享已停止'
+            ipcManager.clientEmit('changeDeviceStatus',{status:'stop'})
+        }else{
+            breath.className = 'breath-light'
+            breath.innerHTML = '算力共享中'
+            ipcManager.clientEmit('changeDeviceStatus',{status:'start'})
+        }
+    }
+    titleWrapper.appendChild(breath)
+
     var searchBar = document.createElement('input');
     searchBar.className = 'searchBar';
     searchBar.type = 'text';

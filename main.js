@@ -15,8 +15,6 @@ var h = 500;
 if(process.platform == 'win32'){
 	h=530;
 }
-
-
 app.nodeCore = new Furseal(app.getPath('appData')+'/CoTNetwork')
 app.nodeCore.init()
 
@@ -73,8 +71,9 @@ function createWindow () {
       if(ret == 0){
         console.log('desdroy core')
         baseWin.close()
-        //mainWindow.minimize()
-        mainWindow.destroy()
+        setTimeout(() => {
+          mainWindow.destroy()
+        }, 500);
         event.returnValue = true
       }else if(ret == 2){
         baseWin.close()

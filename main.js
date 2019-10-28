@@ -1,8 +1,10 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow,dialog} = require('electron')
+const electron = require('electron')
+const {app, BrowserWindow,dialog,Tray,Menu} = electron
 const path = require('path')
 const ipcMain = require('electron').ipcMain
 const process = require('process')
+const Furseal = require('./Furseal/index.js');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -13,6 +15,10 @@ var h = 500;
 if(process.platform == 'win32'){
 	h=530;
 }
+
+
+app.nodeCore = new Furseal(app.getPath('appData')+'/CoTNetwork')
+app.nodeCore.init()
 
 function createWindow () {
   // Create the browser window.
@@ -40,15 +46,47 @@ function createWindow () {
   if(process.env.COT_DEV == true){
     mainWindow.webContents.openDevTools()
   }
- 
-  // Emitted when the window is closed.
-  mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null
+
+
+  mainWindow.on('close',(event) => {
+    event.preventDefault()
+    const options = {
+      type: 'question',
+      buttons: ['退出','取消','最小化到托盘'],
+      defaultId: 2,
+      title: '操作确认',
+      message: '退出Fursel将导致所有任务停止计算，正在计算的任务也将不会返回，确定要退出?'
+    }
+    let bounds = electron.screen.getPrimaryDisplay().bounds;
+    let x = bounds.x + (bounds.width  / 2)-50;
+    let y = bounds.y + (bounds.height / 2)-50;
+    var baseWin = new BrowserWindow({
+      width: 100,
+      height: 100, 
+      x: x,
+      y: y,
+      alwaysOnTop:true,
+      transparent:true
+    })
+    dialog.showMessageBox(baseWin,
+     options,(ret) => {
+     
+      console.log(ret)
+      if(ret == 0){
+        console.log('desdroy core')
+        baseWin.close()
+        mainWindow.destroy()
+      }else if(ret == 2){
+        baseWin.close()
+        mainWindow.minimize()
+        event.returnValue = false
+      }
+    })
   })
+  
 }
+
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -57,13 +95,7 @@ app.on('ready', createWindow)
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
-  console.log('all close on main')
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  // if (process.platform !== 'darwin') app.quit()
-  // var lockPath = app.getPath('appData')+'/CoTNetwork/fileStorage/repo.lock'
-  // Tools.removeRepoLock(lockPath)
-  app.quit();
+  app.quit()
 })
 
 

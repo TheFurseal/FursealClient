@@ -18,13 +18,11 @@ var listLocation;
 var dataSync = false;
 var syncHanderID = null;
 function syncData(){
-
     if(dataSync == false){
         dataSync = true;
         setInterval(() => {
             ipcManager.clientEmit('mainUpdate','update')
         }, 3000);
-
     }else{
 
     }
@@ -32,50 +30,36 @@ function syncData(){
 
 
 function constructList(parent,data){
-    
     var dataTmp = data;
     var key = data.key;
     data = data.value;
     if(typeof(data) == 'string'){
         data = JSON.parse(data);
     }
-
     //see if element was already exists.
     var wrapper = document.getElementById('taskListBar_'+key);
     if(wrapper == null){ // just add new one
-        
         wrapper = document.createElement('div');
         wrapper.className = 'taskListBar';
         wrapper.id = 'taskListBar_'+key;
         parent.appendChild(wrapper);
-
-       
-
-
         wrapper.onclick = function(){
-          
             if(listLocation != null){
-
                 var tmp = document.getElementById('listDetail_'+listLocation);
                 // tmp.style.opacity = '0';
                 if(tmp != null){
                     tmp.remove()
                 }
-                
                 tmp = document.getElementById('colorWrapper_'+listLocation);
                 tmp.classList.toggle('hover2',false);
-                
-               
             }
             listLocation = data.workName
             constructListDetail(dataTmp.value);
             var tmp = document.getElementById('listDetail_'+key);
             tmp.style.opacity = '1';
             tmp.style.width = '250px';
-            
             tmp = document.getElementById('colorWrapper_'+key);
             tmp.classList.toggle('hover2',true);
-         
         }
 
         var colorWrapper = document.createElement('div');
@@ -3024,6 +3008,10 @@ ipcManager.addClientListenner('transferSatus',(data) => {
     console.log(data)
 })
 
+ipcManager.addClientListenner('updateServicingNodeNumber',(data) => {
+    
+})
+
 ipcManager.addClientListenner('gotBlockInfo',(data) => {
     createBlockSubMenu(data)
 })
@@ -3167,21 +3155,20 @@ function encode(data){
 function loginPage(){
 
     // if there was a saved data
+    if(window.nodeCore.devStat.isLogin()){
+        console.log('already login')
+        mainPage()
+        return
+    }
  
     var path = window.appPath;
     if (window.fs.existsSync(path+'/pass')) {
         //file exists
         var data = window.fs.readFileSync(path+'/pass');
         var dataDecode = decode(data.toString());
-        setTimeout(() => {
-            window.nodeCore.login(dataDecode);
-        }, 3000);
-       
-        
+        window.nodeCore.login(dataDecode);
     }
     
-
-
     while (document.body.firstChild) {
         document.body.removeChild( document.body.firstChild);
     }

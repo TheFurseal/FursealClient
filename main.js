@@ -4,7 +4,8 @@ const {app, BrowserWindow,dialog} = electron
 const path = require('path')
 const ipcMain = require('electron').ipcMain
 const process = require('process')
-const Furseal = require('./Furseal/index.js');
+const Furseal = require('./Furseal/index.js')
+const { autoUpdater } = require("electron-updater")
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -82,6 +83,8 @@ function createWindow () {
       }
     })
   })
+
+  autoUpdater.checkForUpdatesAndNotify()
 
 }
 

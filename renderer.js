@@ -514,6 +514,16 @@ function constructListDetail(data){
 }
 
 function mainUpdate(data){
+
+    var breath = document.getElementById('breatinghLight')
+    if(data.powerSharing){
+        breath.className = 'breath-light'
+        breath.innerHTML = '算力共享中'
+    }else{
+        breath.className = 'breath-light2'
+        breath.innerHTML = '共享已停止'
+    }
+
    
     if(pageLocation != 'Home'){
         if(syncHanderID != null){
@@ -2507,6 +2517,7 @@ function pageCommon(location){
 
     var breath = document.createElement('div')
     breath.className = 'breath-light'
+    breath.id = 'breatinghLight'
     breath.innerHTML = '算力共享中'
     breath.onclick = function(){
         if(breath.className == 'breath-light'){
@@ -2972,7 +2983,6 @@ function mainPage(){
     listValue.className = 'listValueWrapper';
     listValue.id = 'listValueWrapper';
     listWrapper.appendChild(listValue);
-
 }
 
 function updateBlockStatus(data){

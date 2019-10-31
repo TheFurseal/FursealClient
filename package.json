@@ -6,15 +6,9 @@
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir ",
-    "distMac": "electron-builder --mac --x64 ",
-    "distWin": "electron-builder --win --x64 "
+    "distMac": "electron-builder --mac --x64",
+    "distWin": "electron-builder --win --x64"
   },
-  "publish": [
-    {
-      "provider": "generic",
-      "url": "http://peer1.cotnetwork.com:1337/download/"
-    }
-  ],
   "asar": false,
   "nodeIntegration": false,
   "repository": {
@@ -81,7 +75,15 @@
     "win": {
       "requestedExecutionLevel": "highestAvailable"
     },
-    "mac": {}
+    "mac": {
+
+    },
+    "publish":[{
+      "provider": "github",
+      "owner": "theFurseal",
+      "repo": "FursealClient"
+    }]
+    
   },
   "postinstall": "electron-builder install-app-deps"
 }

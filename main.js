@@ -7,17 +7,25 @@ const process = require('process')
 const Furseal = require('./Furseal/index.js')
 const { autoUpdater } = require("electron-updater")
 
+const fs = require('fs')
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
+var updateWindow
+
 
 var w =1000;
 var h = 500;
 if(process.platform == 'win32'){
 	h=530;
 }
-app.nodeCore = new Furseal(app.getPath('appData')+'/CoTNetwork')
-app.nodeCore.init()
+
+
+function initCore(){
+  app.nodeCore = new Furseal(app.getPath('appData')+'/CoTNetwork')
+  app.nodeCore.init()
+}
 
 function createWindow () {
   // Create the browser window.
@@ -40,6 +48,7 @@ function createWindow () {
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
+  mainWindow.setTitle('Furseal v'+app.getVersion())
 
   // Open the DevTools.
   if(process.env.COT_DEV == true){
@@ -48,6 +57,7 @@ function createWindow () {
 
 
   mainWindow.on('close',(event) => {
+    console.log('cose '+event.returnValue)
     event.preventDefault()
     const options = {
       type: 'question',
@@ -56,47 +66,94 @@ function createWindow () {
       title: '操作确认',
       message: '退出Fursel将导致所有任务停止计算，正在计算的任务也将不会返回，确定要退出?'
     }
-    let bounds = electron.screen.getPrimaryDisplay().bounds;
-    let x = bounds.x + (bounds.width  / 2)-50;
-    let y = bounds.y + (bounds.height / 2)-50;
-    var baseWin = new BrowserWindow({
-      width: 100,
-      height: 100, 
-      x: x,
-      y: y,
-      alwaysOnTop:true,
-      transparent:true
-    })
-    dialog.showMessageBox(baseWin,
+    dialog.showMessageBox(null,
      options,(ret) => {
       if(ret == 0){
-        console.log('desdroy core')
-        baseWin.close()
+       
         setTimeout(() => {
           mainWindow.destroy()
         }, 500);
         event.returnValue = true
       }else if(ret == 2){
-        baseWin.close()
+      
         mainWindow.minimize()
         event.returnValue = false
+      }else{
+        
       }
     })
   })
-
-  autoUpdater.checkForUpdatesAndNotify()
-
 }
 
+autoUpdater.on('update-not-available',() => {
+  console.log('No available update detected, start core')
+  initCore()
+  createWindow()
+})
 
+autoUpdater.on('error', err => {
+  dialog.showMessageBox({
+    title:"Updates failed",
+    message:"Updates failed, we'll rety on next time Furseal launched!"
+  },() => {
+    setImmediate(() => {
+      initCore()
+      createWindow()
+    })
+  })  
+})
+autoUpdater.on('update-available',(message) => {
+  updateWindow = new BrowserWindow({
+    width: 600,
+    height: 200,
+    titleBarStyle: 'hidden',
+    frame:false,
+    webPreferences: {
+      nodeIntegration: false,
+      preload: path.join(__dirname, 'updatePreload.js')
+    },
+    icon: path.join(__dirname, 'images/ic_launcher_round.png')
+  })
+  updateWindow.removeMenu()
+  updateWindow.loadFile('update.html')
+})
+autoUpdater.on('download-progress',(msg) => {
+  console.log('download_progress')
+  console.log(msg)
+  updateWindow.webContents.send('updateDownloadProgress',msg)
+})
 
+autoUpdater.on('update-downloaded',(event,relNotes) => {
+  dialog.showMessageBox({
+    title:"Install updates",
+    message:"Updates downloaded, application will  quit and install update ..."
+  },() => {
+    setImmediate(() => {
+      updateWindow.destroy()
+      if(fs.existsSync(app.getPath('appData')+'/CoTNetwork/run.lock')){
+        fs.unlinkSync(app.getPath('appData')+'/CoTNetwork/run.lock')
+      }
+      autoUpdater.quitAndInstall(true,true)
+    })
+  })
+})
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', () => {
+  if(fs.existsSync(app.getPath('appData')+'/CoTNetwork/run.lock')){
+    app.quit()
+  }else{
+    fs.writeFileSync(app.getPath('appData')+'/CoTNetwork/run.lock',app.getVersion())
+  }
+  autoUpdater.checkForUpdates()
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
+  if(fs.existsSync(app.getPath('appData')+'/CoTNetwork/run.lock')){
+    fs.unlinkSync(app.getPath('appData')+'/CoTNetwork/run.lock')
+  }
   app.quit()
 })
 

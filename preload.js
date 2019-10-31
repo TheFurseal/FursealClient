@@ -19,6 +19,7 @@ const app = remote.app;
 window.appPath = app.getPath('appData')+'/CoTNetwork';
 window.tempPath = app.getPath('temp')+'/CoTNetwork';
 window.nodeCore = app.nodeCore
+window.version = app.getVersion()
 
 
 window.ipcRender = require('electron').ipcRenderer;

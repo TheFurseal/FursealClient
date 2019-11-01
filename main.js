@@ -57,7 +57,6 @@ function createWindow () {
 
 
   mainWindow.on('close',(event) => {
-    console.log('cose '+event.returnValue)
     event.preventDefault()
     const options = {
       type: 'question',
@@ -92,6 +91,7 @@ autoUpdater.on('update-not-available',() => {
 })
 
 autoUpdater.on('error', err => {
+  console.log(err)
   dialog.showMessageBox({
     title:"Updates failed",
     message:"Updates failed, we'll rety on next time Furseal launched!"
@@ -142,9 +142,22 @@ autoUpdater.on('update-downloaded',(event,relNotes) => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   if(fs.existsSync(app.getPath('appData')+'/CoTNetwork/run.lock')){
-    app.quit()
+    var tmp = fs.readFileSync(app.getPath('appData')+'/CoTNetwork/run.lock')
+    var date = new Date()
+    if(date.valueOf() - parseInt(tmp) < 70000){
+      app.quit()
+    }else{
+      setInterval(() => {
+        var date = new Date()
+        fs.writeFileSync(app.getPath('appData')+'/CoTNetwork/run.lock',date.valueOf())
+      }, 5000);
+    }
   }else{
-    fs.writeFileSync(app.getPath('appData')+'/CoTNetwork/run.lock',app.getVersion())
+    setInterval(() => {
+      var date = new Date()
+      fs.writeFileSync(app.getPath('appData')+'/CoTNetwork/run.lock',date.valueOf())
+    }, 5000);
+    
   }
   autoUpdater.checkForUpdates()
 })

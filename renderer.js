@@ -2516,9 +2516,9 @@ function pageCommon(location){
     mainWrapper.appendChild(titleWrapper);
 
     var breath = document.createElement('div')
-    breath.className = 'breath-light'
+    breath.className = 'breath-light2'
     breath.id = 'breatinghLight'
-    breath.innerHTML = '算力共享中'
+    breath.innerHTML = '共享已停止'
     breath.onclick = function(){
         if(breath.className == 'breath-light'){
             breath.className = 'breath-light2'
@@ -3190,6 +3190,7 @@ function loginPage(){
     var path = window.appPath;
     if (window.fs.existsSync(path+'/pass')) {
         //file exists
+        console.log('Login with tmp')
         var data = window.fs.readFileSync(path+'/pass');
         var dataDecode = decode(data.toString());
         window.nodeCore.login(dataDecode);
@@ -3289,11 +3290,6 @@ function loginPage(){
         
     }
     mainWrapper.appendChild(submitButton);
-
-   
-    
-
-
 
     var registerButton = document.createElement('div');
     registerButton.style.position = 'absolute';

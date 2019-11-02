@@ -1,6 +1,6 @@
 {
   "name": "furseal",
-  "version": "1.0.0-alpha",
+  "version": "0.0.1",
   "description": "The Furseal client using electron",
   "main": "main.js",
   "scripts": {

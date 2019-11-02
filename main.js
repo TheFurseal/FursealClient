@@ -92,15 +92,10 @@ autoUpdater.on('update-not-available',() => {
 
 autoUpdater.on('error', err => {
   console.log(err)
-  dialog.showMessageBox({
-    title:"Updates failed",
-    message:"Updates failed, we'll rety on next time Furseal launched!"
-  },() => {
-    setImmediate(() => {
-      initCore()
-      createWindow()
-    })
-  })  
+  setImmediate(() => {
+    initCore()
+    createWindow()
+  }) 
 })
 autoUpdater.on('update-available',(message) => {
   updateWindow = new BrowserWindow({

@@ -3001,7 +3001,7 @@ function updateBlockStatus(data){
                 }else if(data[i].status == 'processing'){
                     tmp.style.backgroundColor = '#617bfa'
                     // TODO
-                }else if(data[i].status == 'preDone'){
+                }else if(data[i].status == 'preDone' || data[i].status == 'validating'){
                     tmp.style.backgroundColor = '#ffd700'
                 }
             }else{

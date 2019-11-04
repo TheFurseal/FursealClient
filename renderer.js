@@ -1064,8 +1064,8 @@ function appUploadStep3(parent){
                 //update ui
                 if(arg.value.length > 0){
                     var pathTmp = document.getElementById(arg.type+'Path')
-                    
-                    console.log('setValue',arg.value)
+                    arg.value[0] = arg.value[0].replace(/\\/g,'/')
+                    console.log('setValue '+arg.value[0])
                     if(arg.type == 'dividor'){
                         var sp = arg.value[0].split('/')
                         pathTmp.innerHTML = sp[sp.length-1];

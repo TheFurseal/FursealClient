@@ -539,6 +539,27 @@ function mainUpdate(data){
     var balanceCNC = document.getElementById('infoTile4_2');
     var balanceRNB = document.getElementById('infoTile4_3');
 
+    var speedDisplay = document.getElementById('infoTile2_2')
+    if(speedDisplay == null){
+        return
+    }
+   
+    var totalSpeed =  data.speed
+    var count = 0
+    while(totalSpeed >= 1024 && count < 4){
+        totalSpeed = totalSpeed / 1024
+        count++
+    }
+    totalSpeed = totalSpeed.toFixed(2)
+    if(count == 0){
+        speedDisplay.innerHTML = totalSpeed+' B/s'
+    }else if(count == 1){
+        speedDisplay.innerHTML = totalSpeed+' Kb/s'
+    }else if(count == 2){
+        speedDisplay.innerHTML = totalSpeed+' Mb/s'
+    }else{
+        speedDisplay.innerHTML = totalSpeed+' Gb/s'
+    }
     nodeNumber.innerHTML = data.nodeNumber;
     avgTime.innerHTML = data.avgTime;
     balanceCNC.innerHTML = data.balanceCNC;
@@ -2917,7 +2938,7 @@ function mainPage(){
 
     var infoTile2_1 =document.createElement('div');
     infoTile2_1.className = 'infoTitle';
-    infoTile2_1.innerHTML = '实时传输速度';
+    infoTile2_1.innerHTML = '全局下载速度';
     infoBlock2.appendChild(infoTile2_1);
 
     var infoTile2_2 =document.createElement('div');
@@ -3027,30 +3048,7 @@ function updatePreview(data){
     
 }
 
-ipcManager.addClientListenner('transferSatus',(data) => {
-    var speedDisplay = document.getElementById('infoTile2_2')
-    if(speedDisplay == null){
-        return
-    }
-    var totalSpeed =  data.speed
-    var count = 0
-    while(totalSpeed > 1023 && count < 4){
-        totalSpeed = totalSpeed / 1024
-        count++
-    }
-    if(count == 0){
-        speedDisplay.innerHTML = totalSpeed+' B/s'
-    }else if(count == 1){
-        speedDisplay.innerHTML = totalSpeed+' Kb/s'
-    }else if(count == 2){
-        speedDisplay.innerHTML = totalSpeed+' Mb/s'
-    }else if(count == 3){
-        speedDisplay.innerHTML = totalSpeed+' Gb/s'
-    }else{
-        speedDisplay.innerHTML = "Very fast!!!"
-    }
-    
-})
+
 
 ipcManager.addClientListenner('updateServicingNodeNumber',(data) => {
     

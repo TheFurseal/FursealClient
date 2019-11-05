@@ -535,13 +535,11 @@ function mainUpdate(data){
     }
 
     var nodeNumber = document.getElementById('infoTile1_2');
-    var speed = document.getElementById('infoTile2_2');
     var avgTime = document.getElementById('infoTile3_2');
     var balanceCNC = document.getElementById('infoTile4_2');
     var balanceRNB = document.getElementById('infoTile4_3');
 
     nodeNumber.innerHTML = data.nodeNumber;
-    speed.innerHTML = data.speed;
     avgTime.innerHTML = data.avgTime;
     balanceCNC.innerHTML = data.balanceCNC;
     balanceRNB.innerHTML = '≈ ¥'+data.balanceRNB;

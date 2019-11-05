@@ -20,11 +20,12 @@ var syncHanderID = null;
 function syncData(){
     if(dataSync == false){
         dataSync = true;
-        setInterval(() => {
+       var handle = setInterval(() => {
             ipcManager.clientEmit('mainUpdate','update')
         }, 3000);
+        return handle
     }else{
-
+        return null
     }
 }
 
@@ -535,7 +536,7 @@ function mainUpdate(data){
     }
 
     var nodeNumber = document.getElementById('infoTile1_2');
-    var avgTime = document.getElementById('infoTile3_2');
+    var localProgresses = document.getElementById('infoTile3_2');
     var balanceCNC = document.getElementById('infoTile4_2');
     var balanceRNB = document.getElementById('infoTile4_3');
 
@@ -560,8 +561,20 @@ function mainUpdate(data){
     }else{
         speedDisplay.innerHTML = totalSpeed+' Gb/s'
     }
+
+    //update local progress
+    data.localProgresses.forEach(item => {
+        var tmp = document.getElementById(item.name)
+        if(tmp == null){
+            tmp = document.createElement('div')
+            tmp.innerHTML = item.name+'  '+item.progress*100+'%'
+            localProgresses.appendChild(tmp)
+        }
+    })
+    localProgresses.innerHTML = data.localProgresses;
+
+
     nodeNumber.innerHTML = data.nodeNumber;
-    avgTime.innerHTML = data.avgTime;
     balanceCNC.innerHTML = data.balanceCNC;
     balanceRNB.innerHTML = '≈ ¥'+data.balanceRNB;
     var workList = data.workList;
@@ -2954,12 +2967,11 @@ function mainPage(){
 
     var infoTile3_1 =document.createElement('div');
     infoTile3_1.className = 'infoTitle';
-    infoTile3_1.innerHTML = '平均任务耗时(分钟)';
+    infoTile3_1.innerHTML = '当前任务进度';
     infoBlock3.appendChild(infoTile3_1);
 
     var infoTile3_2 =document.createElement('div');
     infoTile3_2.className = 'infoMain';
-    // infoTile3_2.innerHTML = '73.1';
     infoTile3_2.id = 'infoTile3_2';
     infoBlock3.appendChild(infoTile3_2);
 

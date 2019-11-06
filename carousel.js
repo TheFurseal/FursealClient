@@ -150,7 +150,9 @@ var Carousel = function(){
     });
 
     setInterval(() => {
-        next();
+        if(CarouselValueStorage.length){
+            next();
+        }
     }, 3000);
 }
 

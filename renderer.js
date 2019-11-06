@@ -538,7 +538,6 @@ function mainUpdate(data){
     }
 
     var nodeNumber = document.getElementById('infoTile1_2');
-    var localProgresses = document.getElementById('infoTile3_2');
     var balanceCNC = document.getElementById('infoTile4_2');
     var balanceRNB = document.getElementById('infoTile4_3');
 

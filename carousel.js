@@ -75,8 +75,11 @@ var Carousel = function(){
         var fixed = fixIndex(cLocation,len)
         console.log(' ++ '+fixed)
         if(fixed != null){
+            var prg = document.createElement('div')
+            prg.className = 'infoMain'
+            prg.innerHTML = CarouselValueStorage[keys[fixed]].key
+            $(".act").appendChild(prg)
             var text = document.createElement('div')
-            text.className = 'infoMain'
             text.innerHTML = CarouselValueStorage[keys[fixed]].value
             $(".act").appendChild(text)
         }

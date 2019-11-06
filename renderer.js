@@ -568,7 +568,7 @@ function mainUpdate(data){
       
         var tmp = {}
         tmp.key = item.name
-        tmp.value = item.name.substr(0,5)+'_'+(item.progress*100)+' %'
+        tmp.value = (item.progress*100).toFixed(2)+' %'
        if(item.progress == 1){
            setTimeout(() => {
                 removeCarouselItem(tmp)

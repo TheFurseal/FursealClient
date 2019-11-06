@@ -21,6 +21,9 @@ function fixIndex(idx,total){
 }
 
 var addCarouselItem = (item) => {
+    if(item == null){
+        return
+    }
     var idx = -1
    for(var i=0; i<CarouselValueStorage.length; i++){
         if(CarouselValueStorage[i].key == item.key){
@@ -34,6 +37,9 @@ var addCarouselItem = (item) => {
 }
 
 var removeCarouselItem = (item) => {
+    if(item == null){
+        return
+    }
     for(var i=0; i<CarouselValueStorage.length; i++){
         if(CarouselValueStorage[i].key == item.key){
             delete CarouselValueStorage[i]

@@ -153,7 +153,7 @@ var Carousel = function(){
     });
 
     setInterval(() => {
-        if(CarouselValueStorage.length){
+        if(Object.keys(CarouselValueStorage).length){
             next();
         }
     }, 3000);

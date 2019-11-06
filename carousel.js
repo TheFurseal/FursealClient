@@ -76,11 +76,12 @@ var Carousel = function(){
         console.log(' ++ '+fixed)
         if(fixed != null){
             var prg = document.createElement('div')
-            prg.className = 'infoMain'
-            prg.innerHTML = CarouselValueStorage[keys[fixed]].key
+            prg.innerHTML = CarouselValueStorage[keys[fixed]].value
+            prg.className = 'carouselTextBig'
             $(".act").appendChild(prg)
             var text = document.createElement('div')
-            text.innerHTML = CarouselValueStorage[keys[fixed]].value
+            text.innerHTML = CarouselValueStorage[keys[fixed]].key
+            text.className = 'carouselTextLittle'
             $(".act").appendChild(text)
         }
       }

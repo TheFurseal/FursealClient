@@ -571,11 +571,11 @@ function mainUpdate(data){
         tmp.value = item.name.substr(0,5)+(item.progress*100)+' %'
        if(item.progress == 1){
            setTimeout(() => {
-              removeCarouselItem(tmp)
+                removeCarouselItem(tmp)
            }, 1000);
        }
 
-       updateCarousel(tmp)
+       addCarouselItem(tmp)
     })
 
 

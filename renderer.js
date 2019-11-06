@@ -566,13 +566,16 @@ function mainUpdate(data){
     //update local progress
     data.localProgresses.forEach(item => {
       
+        var tmp = {}
+        tmp.key = item.name
+        tmp.value = item.name.substr(0,5)+(item.progress*100)+' %'
        if(item.progress == 1){
            setTimeout(() => {
-              removeCarouselItem(item)
+              removeCarouselItem(tmp)
            }, 1000);
-       }else{
-        updateCarousel(item)
        }
+
+       updateCarousel(tmp)
     })
 
 

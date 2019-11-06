@@ -40,11 +40,15 @@ var removeCarouselItem = (item) => {
     if(item == null){
         return
     }
+    var deleteReg = []
     for(var i=0; i<CarouselValueStorage.length; i++){
         if(CarouselValueStorage[i].key == item.key){
-            delete CarouselValueStorage[i]
+            deleteReg.push(i)
         }
-   }
+    }
+    for(var i=0; i<deleteReg.length; i++){
+        delete CarouselValueStorage[deleteReg[i]]
+    }
 }
 
 var Carousel = function(){

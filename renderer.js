@@ -12,6 +12,8 @@ document.getElementsByTagName("head")[0].appendChild(link);
 
 var ipcManager = window.ipcManager
 
+var carousel
+
 
 var pageLocation;
 var listLocation;
@@ -564,14 +566,15 @@ function mainUpdate(data){
 
     //update local progress
     data.localProgresses.forEach(item => {
-        var tmp = document.getElementById(item.name)
-        if(tmp == null){
-            tmp = document.createElement('div')
-            tmp.innerHTML = item.name+'  '+item.progress*100+'%'
-            localProgresses.appendChild(tmp)
-        }
+      
+       if(item.progress == 1){
+           setTimeout(() => {
+              removeCarouselItem(item)
+           }, 1000);
+       }else{
+        updateCarousel(item)
+       }
     })
-    localProgresses.innerHTML = data.localProgresses;
 
 
     nodeNumber.innerHTML = data.nodeNumber;
@@ -2970,8 +2973,35 @@ function mainPage(){
     infoTile3_1.innerHTML = '当前任务进度';
     infoBlock3.appendChild(infoTile3_1);
 
+    var carWrapper = document.createElement('ul')
+    carWrapper.className = 'list'
+    infoTile3_1.appendChild(carWrapper)
+    var hide = document.createElement('li')
+    hide.className = 'hide'
+    var prev = document.createElement('li')
+    prev.className = 'prev'
+    var act = document.createElement('li')
+    act.className = 'act'
+    var next = document.createElement('li')
+    next.className = 'next'
+    var next2 = document.createElement('li')
+    next2.className = "next new-next"
+    var swp = document.createElement('div')
+    swp.className = 'swipe'
+    infoTile3_1.appendChild(swp)
+
+    carWrapper.appendChild(hide)
+    carWrapper.appendChild(prev)
+    carWrapper.appendChild(act)
+    carWrapper.appendChild(next)
+    carWrapper.appendChild(next2)
+    if(carousel == null){
+        carousel = new Carousel()
+    }
+
+
     var infoTile3_2 =document.createElement('div');
-    infoTile3_2.className = 'infoMain';
+    // infoTile3_2.className = 'infoMain';
     infoTile3_2.id = 'infoTile3_2';
     infoBlock3.appendChild(infoTile3_2);
 

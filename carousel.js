@@ -6,7 +6,7 @@ link.type = "text/css";
 link.href = "./css/style.css";
 document.getElementsByTagName("head")[0].appendChild(link);
 
-var CarouselValueStorage = []
+var CarouselValueStorage = {}
 var cLocation = 0
 
 function fixIndex(idx,total){
@@ -24,31 +24,15 @@ var addCarouselItem = (item) => {
     if(item == null){
         return
     }
-    var idx = -1
-   for(var i=0; i<CarouselValueStorage.length; i++){
-        if(CarouselValueStorage[i].key == item.key){
-            CarouselValueStorage[i] = item
-            idx = i
-        }
-   }
-   if(idx == -1){
-       CarouselValueStorage.push(item)
-   }
+    CarouselValueStorage[item.key] = item
+   
 }
 
 var removeCarouselItem = (item) => {
     if(item == null){
         return
     }
-    var deleteReg = []
-    for(var i=0; i<CarouselValueStorage.length; i++){
-        if(CarouselValueStorage[i].key == item.key){
-            deleteReg.push(i)
-        }
-    }
-    for(var i=0; i<deleteReg.length; i++){
-        delete CarouselValueStorage[deleteReg[i]]
-    }
+    delete CarouselValueStorage[item.key]
 }
 
 var Carousel = function(){
@@ -85,12 +69,15 @@ var Carousel = function(){
         while ( $(".act").hasChildNodes()) {
             $(".act").removeChild( $(".act").lastChild);
         }
-        var fixed = fixIndex(cLocation,CarouselValueStorage.length)
+        var keys = Object.keys(CarouselValueStorage)
+        console.log("keys "+JSON.stringify(keys))
+        var len = keys.length
+        var fixed = fixIndex(cLocation,len)
         console.log(' ++ '+fixed)
         if(fixed != null){
             var text = document.createElement('div')
             text.className = 'infoMain'
-            text.innerHTML = CarouselValueStorage[fixed].value
+            text.innerHTML = CarouselValueStorage[keys[fixed]].value
             $(".act").appendChild(text)
         }
       }
@@ -121,12 +108,14 @@ var Carousel = function(){
         while ( $(".act").hasChildNodes()) {
             $(".act").removeChild( $(".act").lastChild);
         }
-        var fixed = fixIndex(cLocation,CarouselValueStorage.length)
+        var keys = Object.keys(CarouselValueStorage)
+        var len = keys.length
+        var fixed = fixIndex(cLocation,len)
         console.log(' -- '+fixed)
         if(fixed != null){
             var text = document.createElement('div')
             text.className = 'infoMain'
-            text.innerHTML = CarouselValueStorage[fixed].value
+            text.innerHTML = CarouselValueStorage[keys[fixed]].value
             $(".act").appendChild(text)
         }
     }

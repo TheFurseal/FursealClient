@@ -121,9 +121,8 @@ var Carousel = function(){
             text.className = 'infoMain'
             text.innerHTML = CarouselValueStorage[keys[fixed]].value
             $(".act").appendChild(text)
-            if(CarouselValueStorage[keys[fixed]].flag == 1){
-                delete CarouselValueStorage[keys[fixed]]
-            }
+            delete CarouselValueStorage[keys[fixed]]
+            
         }
     }
       

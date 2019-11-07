@@ -70,10 +70,8 @@ var Carousel = function(){
             $(".act").removeChild( $(".act").lastChild);
         }
         var keys = Object.keys(CarouselValueStorage)
-        console.log("keys "+JSON.stringify(keys))
         var len = keys.length
         var fixed = fixIndex(cLocation,len)
-        console.log(' ++ '+fixed)
         if(fixed != null){
             var prg = document.createElement('div')
             prg.innerHTML = CarouselValueStorage[keys[fixed]].value
@@ -83,6 +81,9 @@ var Carousel = function(){
             text.innerHTML = CarouselValueStorage[keys[fixed]].key
             text.className = 'carouselTextLittle'
             $(".act").appendChild(text)
+            if(CarouselValueStorage[keys[fixed]].flag == 1){
+                delete CarouselValueStorage[keys[fixed]]
+            }
         }
       }
       
@@ -115,12 +116,14 @@ var Carousel = function(){
         var keys = Object.keys(CarouselValueStorage)
         var len = keys.length
         var fixed = fixIndex(cLocation,len)
-        console.log(' -- '+fixed)
         if(fixed != null){
             var text = document.createElement('div')
             text.className = 'infoMain'
             text.innerHTML = CarouselValueStorage[keys[fixed]].value
             $(".act").appendChild(text)
+            if(CarouselValueStorage[keys[fixed]].flag == 1){
+                delete CarouselValueStorage[keys[fixed]]
+            }
         }
     }
       
@@ -151,10 +154,16 @@ var Carousel = function(){
     swipe.on("swiperight", (ev) => {
     prev();
     });
-
+    var clearFlag = false
     setInterval(() => {
         if(Object.keys(CarouselValueStorage).length){
             next();
+            clearFlag = false
+        }else{
+            if(!clearFlag){
+                next();
+                clearFlag = true
+            }
         }
     }, 3000);
 }

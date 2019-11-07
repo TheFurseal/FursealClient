@@ -154,7 +154,12 @@ app.on('ready', () => {
     }, 5000);
     
   }
-  autoUpdater.checkForUpdates()
+  try{
+    autoUpdater.checkForUpdates()
+  }catch(e){
+    console.error(e)
+  }
+  
 })
 
 // Quit when all windows are closed.

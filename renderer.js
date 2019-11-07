@@ -2973,9 +2973,14 @@ function mainPage(){
     infoTile3_1.innerHTML = '当前任务进度';
     infoBlock3.appendChild(infoTile3_1);
 
+    var infoTile3_2 =document.createElement('div');
+    infoTile3_2.className = 'infoMain';
+    infoTile3_2.id = 'infoTile3_2';
+    infoBlock3.appendChild(infoTile3_2);
+
     var carWrapper = document.createElement('ul')
     carWrapper.className = 'list'
-    infoTile3_1.appendChild(carWrapper)
+    infoTile3_2.appendChild(carWrapper)
     var hide = document.createElement('li')
     hide.className = 'hide'
     var prev = document.createElement('li')
@@ -2988,7 +2993,7 @@ function mainPage(){
     next2.className = "next new-next"
     var swp = document.createElement('div')
     swp.className = 'swipe'
-    infoTile3_1.appendChild(swp)
+    infoTile3_2.appendChild(swp)
 
     carWrapper.appendChild(hide)
     carWrapper.appendChild(prev)
@@ -2999,11 +3004,6 @@ function mainPage(){
         carousel = new Carousel()
     }
 
-
-    var infoTile3_2 =document.createElement('div');
-    // infoTile3_2.className = 'infoMain';
-    infoTile3_2.id = 'infoTile3_2';
-    infoBlock3.appendChild(infoTile3_2);
 
     var infoBlock4 = document.createElement('div');
     infoBlock4.className = 'infoBlock';

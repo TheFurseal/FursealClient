@@ -8,6 +8,7 @@ document.getElementsByTagName("head")[0].appendChild(link);
 
 var CarouselValueStorage = {}
 var cLocation = 0
+var init = false
 
 function fixIndex(idx,total){
     if(total == 0){
@@ -36,6 +37,10 @@ var removeCarouselItem = (item) => {
 }
 
 var Carousel = function(){
+    if(init){
+        return 
+    }
+    init = true
     // carousel
     const $ = selector => {
         return document.querySelector(selector);

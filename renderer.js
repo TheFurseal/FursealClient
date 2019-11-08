@@ -3086,15 +3086,6 @@ function updateBlockStatus(data){
     } 
 }
 
-function updatePreview(data){
-    
-}
-
-
-
-ipcManager.addClientListenner('updateServicingNodeNumber',(data) => {
-    
-})
 
 ipcManager.addClientListenner('gotBlockInfo',(data) => {
     createBlockSubMenu(data)

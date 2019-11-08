@@ -113,8 +113,6 @@ autoUpdater.on('update-available',(message) => {
   updateWindow.loadFile('update.html')
 })
 autoUpdater.on('download-progress',(msg) => {
-  console.log('download_progress')
-  console.log(msg)
   updateWindow.webContents.send('updateDownloadProgress',msg)
 })
 
@@ -167,7 +165,22 @@ app.on('window-all-closed', function () {
   if(fs.existsSync(app.getPath('appData')+'/CoTNetwork/run.lock')){
     fs.unlinkSync(app.getPath('appData')+'/CoTNetwork/run.lock')
   }
-  app.quit()
+  if(app.nodeCore != null){
+    async function shutDown(){
+      console.log('step 1')
+      await app.nodeCore.shutdown()
+    
+      console.log('step 2')
+      app.quit()
+      console.log('step 3')
+    }
+
+    shutDown()
+    
+  }else{
+    app.quit()
+  }
+  
 })
 
 

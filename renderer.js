@@ -12,8 +12,6 @@ document.getElementsByTagName("head")[0].appendChild(link);
 
 var ipcManager = window.ipcManager
 
-var carousel
-
 
 var pageLocation;
 var listLocation;
@@ -3000,10 +2998,8 @@ function mainPage(){
     carWrapper.appendChild(act)
     carWrapper.appendChild(next)
     carWrapper.appendChild(next2)
-    if(carousel == null){
-        carousel = new Carousel()
-    }
-
+    
+    Carousel()
 
     var infoBlock4 = document.createElement('div');
     infoBlock4.className = 'infoBlock';

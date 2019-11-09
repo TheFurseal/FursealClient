@@ -74,13 +74,13 @@ function constructList(parent,data){
         icon.className = 'taskListBarFlag';
         icon.id = 'taskListBarFlag_'+key;
         if(data.unprotected.status == 'init'){
-            icon.style.backgroundImage = "url('./images/flagProcess.png')";
+            icon.style.backgroundImage = "url('static/images/flagProcess.png')";
         }else if(data.unprotected.status == 'processing'){
-            icon.style.backgroundImage = "url('./images/flagProcess.png')";
+            icon.style.backgroundImage = "url('static/images/flagProcess.png')";
         }else if(data.unprotected.status == 'finish'){
-            icon.style.backgroundImage = "url('./images/flagFinish.png')";
+            icon.style.backgroundImage = "url('static/images/flagFinish.png')";
         }else{
-            icon.style.backgroundImage = "url('./images/flagError.png')";
+            icon.style.backgroundImage = "url('static/images/flagError.png')";
         }
         
         wrapper.appendChild(icon);
@@ -164,13 +164,13 @@ function constructList(parent,data){
 
        tmp = document.getElementById('taskListBarFlag_'+key)
         if(data.unprotected.status == 'init'){
-            tmp.style.backgroundImage = "url('./images/flagProcess.png')";
+            tmp.style.backgroundImage = "url('static/images/flagProcess.png')";
         }else if(data.unprotected.status == 'processing'){
-            tmp.style.backgroundImage = "url('./images/flagProcess.png')";
+            tmp.style.backgroundImage = "url('static/images/flagProcess.png')";
         }else if(data.unprotected.status == 'finish'){
-            tmp.style.backgroundImage = "url('./images/flagFinish.png')";
+            tmp.style.backgroundImage = "url('static/images/flagFinish.png')";
         }else{
-            tmp.style.backgroundImage = "url('./images/flagError.png')";
+            tmp.style.backgroundImage = "url('static/images/flagError.png')";
         }
         tmp.value = data.unprotected.status
 
@@ -2569,7 +2569,7 @@ function pageCommon(location){
     searchBar.className = 'searchBar';
     searchBar.type = 'text';
     searchBar.style.outline = '0';
-    searchBar.style.backgroundImage = "url('./images/search.png')";
+    searchBar.style.backgroundImage = "url('static/images/search.png')";
     searchBar.onclick = function(){
         searchBar.style.width = '50%';
         searchBar.style.backgroundImage = 'none';
@@ -2578,7 +2578,7 @@ function pageCommon(location){
     searchBar.onblur = function(){
         searchBar.style.width = '25%';
         setTimeout(() => {
-            searchBar.style.backgroundImage = "url('./images/search.png')";
+            searchBar.style.backgroundImage = "url('static/images/search.png')";
         }, 300);
         
     }
@@ -2595,13 +2595,13 @@ function pageCommon(location){
 
     var icon = document.createElement('div');
     icon.className = 'iconWrapper';
-    icon.style.backgroundImage = "url('./images/logo.png')"
+    icon.style.backgroundImage = "url('static/images/logo.png')"
    
     menuWrapper.appendChild(icon);
 
     var menuHome = document.createElement('div');
     menuHome.className = 'menuBar';
-    menuHome.style.backgroundImage = "url('./images/home.png')";
+    menuHome.style.backgroundImage = "url('static/images/home.png')";
     menuHome.innerHTML = '主页';
     menuHome.id = 'Home';
    
@@ -2614,7 +2614,7 @@ function pageCommon(location){
 
     var menuAccount = document.createElement('div');
     menuAccount.className = 'menuBar';
-    menuAccount.style.backgroundImage = "url('./images/account.png')";
+    menuAccount.style.backgroundImage = "url('static/images/account.png')";
     menuAccount.innerHTML = '账户';
     menuAccount.id = 'Account';
     menuAccount.onclick = function(){
@@ -2629,7 +2629,7 @@ function pageCommon(location){
 
     var appStore = document.createElement('div');
     appStore.className = 'menuBar';
-    appStore.style.backgroundImage = "url('./images/appstore.png')";
+    appStore.style.backgroundImage = "url('static/images/appstore.png')";
     appStore.innerHTML = '应用商店';
     appStore.id = 'AppStore';
     appStore.onclick = function(){
@@ -2641,7 +2641,7 @@ function pageCommon(location){
 
     var menuSetting = document.createElement('div');
     menuSetting.className = 'menuBar';
-    menuSetting.style.backgroundImage = "url('./images/setting.png')";
+    menuSetting.style.backgroundImage = "url('static/images/setting.png')";
     menuSetting.innerHTML = '设置';
     menuSetting.id = 'Settings';
     menuSetting.onclick = function(){
@@ -2667,7 +2667,7 @@ function pageCommon(location){
 
     var menuLogout = document.createElement('div');
     menuLogout.className = 'menuBar';
-    menuLogout.style.backgroundImage = "url('./images/exit.png')";
+    menuLogout.style.backgroundImage = "url('static/images/exit.png')";
     menuLogout.innerHTML = '退出';
     menuLogout.id = 'Exit';
     menuLogout.onclick = function(){
@@ -3133,7 +3133,7 @@ function registerPage(){
     var mainWrapper = document.createElement('div');
     mainWrapper.style.height = '450px';
     mainWrapper.style.width = '800px';
-    mainWrapper.style.backgroundImage = "url('./images/bg-login.png')";
+    mainWrapper.style.backgroundImage = "url('static/images/bg-login.png')";
     mainWrapper.style.backgroundSize ='100% 100%';
     mainWrapper.style.backgroundRepeat ='no-repeat';
     mainWrapper.style.overflow = 'visible';
@@ -3248,7 +3248,7 @@ function loginPage(){
     var mainWrapper = document.createElement('div');
     mainWrapper.style.height = '500px';
     mainWrapper.style.width = '1000px';
-    mainWrapper.style.backgroundImage = "url('./images/bg-login.png')";
+    mainWrapper.style.backgroundImage = "url('static/images/bg-login.png')";
     mainWrapper.style.backgroundSize ='100% 100%';
     mainWrapper.style.backgroundRepeat ='no-repeat';
     mainWrapper.style.overflow = 'visible';

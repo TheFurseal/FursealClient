@@ -9,7 +9,7 @@
     "distMac": "electron-builder --mac --x64",
     "distWin": "electron-builder --win --x64"
   },
-  "asar": false,
+  "asar": true,
   "nodeIntegration": false,
   "repository": {
     "type": "git",
@@ -81,9 +81,6 @@
         "owner": "theFurseal",
         "repo": "FursealClient"
       }
-    ],
-    "extraResources":[
-      "./images/**"
     ]
   },
   "postinstall": "electron-builder install-app-deps"

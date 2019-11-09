@@ -46,7 +46,7 @@ function createWindow () {
       nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js')
     },
-    icon: path.join(process.resourcesPath, 'images/ic_launcher_round.png')
+    icon: path.join(__dirname, 'static/images/ic_launcher_round.png')
    
   })
 
@@ -116,7 +116,7 @@ autoUpdater.on('update-available',(message) => {
       nodeIntegration: false,
       preload: path.join(__dirname, 'updatePreload.js')
     },
-    icon: path.join(process.resourcesPath, 'images/ic_launcher_round.png')
+    icon: path.join(__dirname, 'static/images/ic_launcher_round.png')
   })
   updateWindow.removeMenu()
   updateWindow.loadFile('update.html')
@@ -146,7 +146,7 @@ app.on('ready', () => {
     console.error(e)
   }
   if(process.platform == 'win32'){
-    tray = new Tray(path.join(process.resourcesPath, 'images/icon.png'))
+    tray = new Tray(path.join(__dirname, 'static/images/icon.png'))
     const contexMenu = Menu.buildFromTemplate([
       {
         label:"ShowApp",click: () => {

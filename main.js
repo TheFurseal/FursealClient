@@ -167,20 +167,13 @@ app.on('window-all-closed', function () {
   }
   if(app.nodeCore != null){
     async function shutDown(){
-      console.log('step 1')
       await app.nodeCore.shutdown()
-    
-      console.log('step 2')
       app.quit()
-      console.log('step 3')
     }
-
     shutDown()
-    
   }else{
     app.quit()
   }
-  
 })
 
 

@@ -146,7 +146,7 @@ app.on('ready', () => {
     console.error(e)
   }
   if(process.platform == 'win32'){
-    tray = new Tray(path.join(__dirname, 'static/images/icon.png'))
+    tray = new Tray(path.join(__dirname, 'static/images/ic_launcher_round.png'))
     const contexMenu = Menu.buildFromTemplate([
       {
         label:"ShowApp",click: () => {

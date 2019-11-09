@@ -9,6 +9,8 @@ const { autoUpdater } = require("electron-updater")
 
 const fs = require('fs')
 
+const gotTheLock = app.requestSingleInstanceLock()
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -23,11 +25,16 @@ if(process.platform == 'win32'){
 
 
 function initCore(){
-  app.nodeCore = new Furseal(app.getPath('appData')+'/CoTNetwork')
-  app.nodeCore.init()
+  if(app.nodeCore == null){
+    app.nodeCore = new Furseal(app.getPath('appData')+'/CoTNetwork')
+    app.nodeCore.init()
+  }
 }
 
 function createWindow () {
+  if (!gotTheLock) {
+    app.quit()
+  }
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: w,
@@ -57,30 +64,30 @@ function createWindow () {
 
 
   mainWindow.on('close',(event) => {
-    event.preventDefault()
-    const options = {
-      type: 'question',
-      buttons: ['退出','取消','最小化到托盘'],
-      defaultId: 2,
-      title: '操作确认',
-      message: '退出Fursel将导致所有任务停止计算，正在计算的任务也将不会返回，确定要退出?'
-    }
-    dialog.showMessageBox(null,
-     options,(ret) => {
-      if(ret == 0){
+    // event.preventDefault()
+    // const options = {
+    //   type: 'question',
+    //   buttons: ['退出','取消','最小化到托盘'],
+    //   defaultId: 2,
+    //   title: '操作确认',
+    //   message: '退出Fursel将导致所有任务停止计算，正在计算的任务也将不会返回，确定要退出?'
+    // }
+    // dialog.showMessageBox(null,
+    //  options,(ret) => {
+    //   if(ret == 0){
        
-        setTimeout(() => {
-          mainWindow.destroy()
-        }, 500);
-        event.returnValue = true
-      }else if(ret == 2){
+    //     setTimeout(() => {
+    //       mainWindow.destroy()
+    //     }, 500);
+    //     event.returnValue = true
+    //   }else if(ret == 2){
       
-        mainWindow.minimize()
-        event.returnValue = false
-      }else{
+    //     mainWindow.minimize()
+    //     event.returnValue = false
+    //   }else{
         
-      }
-    })
+    //   }
+    // })
   })
 }
 
@@ -123,9 +130,6 @@ autoUpdater.on('update-downloaded',(event,relNotes) => {
   },() => {
     setImmediate(() => {
       updateWindow.destroy()
-      if(fs.existsSync(app.getPath('appData')+'/CoTNetwork/run.lock')){
-        fs.unlinkSync(app.getPath('appData')+'/CoTNetwork/run.lock')
-      }
       autoUpdater.quitAndInstall(true,true)
     })
   })
@@ -134,24 +138,6 @@ autoUpdater.on('update-downloaded',(event,relNotes) => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  if(fs.existsSync(app.getPath('appData')+'/CoTNetwork/run.lock')){
-    var tmp = fs.readFileSync(app.getPath('appData')+'/CoTNetwork/run.lock')
-    var date = new Date()
-    if(date.valueOf() - parseInt(tmp) < 70000){
-      app.quit()
-    }else{
-      setInterval(() => {
-        var date = new Date()
-        fs.writeFileSync(app.getPath('appData')+'/CoTNetwork/run.lock',date.valueOf())
-      }, 5000);
-    }
-  }else{
-    setInterval(() => {
-      var date = new Date()
-      fs.writeFileSync(app.getPath('appData')+'/CoTNetwork/run.lock',date.valueOf())
-    }, 5000);
-    
-  }
   try{
     autoUpdater.checkForUpdates()
   }catch(e){
@@ -162,17 +148,49 @@ app.on('ready', () => {
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
+  // if(fs.existsSync(app.getPath('appData')+'/CoTNetwork/run.lock')){
+  //   fs.unlinkSync(app.getPath('appData')+'/CoTNetwork/run.lock')
+  // }
+  // if(app.nodeCore != null){
+  //   async function shutDown(){
+  //     await app.nodeCore.shutdown()
+  //     app.quit()
+  //   }
+  //   shutDown()
+  // }else{
+  //   app.quit()
+  // }
+})
+
+app.on('will-quit',(event) => {
+  event.preventDefault()
   if(fs.existsSync(app.getPath('appData')+'/CoTNetwork/run.lock')){
     fs.unlinkSync(app.getPath('appData')+'/CoTNetwork/run.lock')
   }
   if(app.nodeCore != null){
     async function shutDown(){
       await app.nodeCore.shutdown()
-      app.quit()
+      app.nodeCore = null
+      event.returnValue = true
+      console.log('App quit!')
+      app.exit(0)
     }
     shutDown()
   }else{
-    app.quit()
+    event.returnValue = true
+    console.log('App quit 2!')
+    app.exit(0)
+  }
+  
+})
+
+app.on('activate', (event, hasVisibleWindows) => {
+  console.log('active')
+  // Someone tried to run a second instance, we should focus our window.
+  if(!hasVisibleWindows){
+    createWindow()
+  }else{
+    mainWindow.restore()
   }
 })
 

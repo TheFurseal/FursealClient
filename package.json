@@ -81,6 +81,9 @@
         "owner": "theFurseal",
         "repo": "FursealClient"
       }
+    ],
+    "extraResources":[
+      "./images/**"
     ]
   },
   "postinstall": "electron-builder install-app-deps"

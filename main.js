@@ -24,7 +24,6 @@ if(process.platform == 'win32'){
 	h=530;
 }
 
-
 function initCore(){
   if(app.nodeCore == null){
     app.nodeCore = new Furseal(app.getPath('appData')+'/CoTNetwork')

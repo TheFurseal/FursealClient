@@ -1,6 +1,6 @@
 // Modules to control application life and create native browser window
 const electron = require('electron')
-const {app, BrowserWindow,dialog} = electron
+const {app, BrowserWindow,dialog,Tray,Menu} = electron
 const path = require('path')
 const ipcMain = require('electron').ipcMain
 const process = require('process')
@@ -15,6 +15,7 @@ const gotTheLock = app.requestSingleInstanceLock()
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 var updateWindow
+let tray = null
 
 
 var w =1000;
@@ -143,6 +144,27 @@ app.on('ready', () => {
   }catch(e){
     console.error(e)
   }
+  if(process.platform == 'win32'){
+    tray = new Tray('./images/icon.png')
+    const contexMenu = Menu.buildFromTemplate([
+      {
+        label:"ShowApp",click: () => {
+        createWindow()
+      }},
+      {
+        label:"Quit",click: () => {
+          app.quit()
+        }
+      }
+    ])
+    tray.setToolTip('Furseal')
+    tray.setContextMenu(contexMenu)
+    tray.on('click',() => {
+      createWindow()
+    })
+  }
+
+
   
 })
 
@@ -164,9 +186,6 @@ app.on('window-all-closed', function () {
 
 app.on('will-quit',(event) => {
   event.preventDefault()
-  if(fs.existsSync(app.getPath('appData')+'/CoTNetwork/run.lock')){
-    fs.unlinkSync(app.getPath('appData')+'/CoTNetwork/run.lock')
-  }
   if(app.nodeCore != null){
     async function shutDown(){
       await app.nodeCore.shutdown()
@@ -200,6 +219,7 @@ app.on('activate', function () {
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow()
 })
+
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.

@@ -66,30 +66,7 @@ function createWindow () {
 
 
   mainWindow.on('close',(event) => {
-    // event.preventDefault()
-    // const options = {
-    //   type: 'question',
-    //   buttons: ['退出','取消','最小化到托盘'],
-    //   defaultId: 2,
-    //   title: '操作确认',
-    //   message: '退出Fursel将导致所有任务停止计算，正在计算的任务也将不会返回，确定要退出?'
-    // }
-    // dialog.showMessageBox(null,
-    //  options,(ret) => {
-    //   if(ret == 0){
-       
-    //     setTimeout(() => {
-    //       mainWindow.destroy()
-    //     }, 500);
-    //     event.returnValue = true
-    //   }else if(ret == 2){
-      
-    //     mainWindow.minimize()
-    //     event.returnValue = false
-    //   }else{
-        
-    //   }
-    // })
+
   })
 }
 
@@ -171,18 +148,7 @@ app.on('ready', () => {
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
-  // if(fs.existsSync(app.getPath('appData')+'/CoTNetwork/run.lock')){
-  //   fs.unlinkSync(app.getPath('appData')+'/CoTNetwork/run.lock')
-  // }
-  // if(app.nodeCore != null){
-  //   async function shutDown(){
-  //     await app.nodeCore.shutdown()
-  //     app.quit()
-  //   }
-  //   shutDown()
-  // }else{
-  //   app.quit()
-  // }
+  mainWindow = null
 })
 
 app.on('will-quit',(event) => {
@@ -205,9 +171,16 @@ app.on('will-quit',(event) => {
 })
 
 app.on('activate', (event, hasVisibleWindows) => {
-  if(app.platform == 'darwin'){
+  console.log('activate !')
+  console.log(process.platform)
+  if(process.platform == 'darwin'){
+    
     if(!hasVisibleWindows){
-      if (mainWindow === null)createWindow()
+      if(mainWindow == null){
+        createWindow()
+      }else{
+        mainWindow.restore()
+      }
     }else{
       mainWindow.restore()
     }

@@ -16,7 +16,7 @@ var pageLocation;
 var listLocation;
 
 setInterval(() => {
-    if(pageCommon == 'Home'){
+    if(pageLocation == 'Home'){
         ipcManager.clientEmit('mainUpdate','update')
     }
 }, 3000);
@@ -553,7 +553,7 @@ function mainUpdate(data){
        if(item.progress == 1){
            tmp.flag = 1
        }
-
+       console.log(tmp)
        addCarouselItem(tmp)
     })
 

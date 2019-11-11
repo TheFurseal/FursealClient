@@ -12,21 +12,15 @@ document.getElementsByTagName("head")[0].appendChild(link);
 
 var ipcManager = window.ipcManager
 
-
 var pageLocation;
 var listLocation;
-var dataSync = false;
 var syncHanderID = null;
 function syncData(){
-    if(dataSync == false){
-        dataSync = true;
-       var handle = setInterval(() => {
-            ipcManager.clientEmit('mainUpdate','update')
-        }, 3000);
-        return handle
-    }else{
-        return null
-    }
+    
+    var handle = setInterval(() => {
+        ipcManager.clientEmit('mainUpdate','update')
+    }, 3000);
+    return handle
 }
 
 
@@ -40,6 +34,7 @@ function constructList(parent,data){
     //see if element was already exists.
     var wrapper = document.getElementById('taskListBar_'+key);
     if(wrapper == null){ // just add new one
+        console.log('Add new nodes to DOM')
         wrapper = document.createElement('div');
         wrapper.className = 'taskListBar';
         wrapper.id = 'taskListBar_'+key;
@@ -137,7 +132,7 @@ function constructList(parent,data){
             if(data.unprotected.info.timeCost != null){
                 
                 var timeCost = new Date(data.unprotected.info.timeCost);
-                tmp.innerHTML = timeCost.toISOString().substr(11, 8);
+                tmp.firstChild.data = timeCost.toISOString().substr(11, 8);
             }
             var dataWrap = []
             var dataSub = {}
@@ -155,12 +150,12 @@ function constructList(parent,data){
             var timeCost = new Date(num);
         
         
-            tmp.innerHTML = timeCost.toISOString().substr(11, 8);
+            tmp.firstChild.data = timeCost.toISOString().substr(11, 8);
             
         }
 
        tmp = document.getElementById('progress_'+key);
-       tmp.innerHTML = (data.unprotected.info.progress*100).toFixed(2)+'%';
+       tmp.firstChild.data = (data.unprotected.info.progress*100).toFixed(2)+'%';
 
        tmp = document.getElementById('taskListBarFlag_'+key)
         if(data.unprotected.status == 'init'){
@@ -515,30 +510,23 @@ function constructListDetail(data){
 }
 
 function mainUpdate(data){
-
     var breath = document.getElementById('breatinghLight')
-    if(data.powerSharing){
+    if(data.powerSharing && breath.className == 'breath-light2'){
         breath.className = 'breath-light'
-        breath.innerHTML = '算力共享中'
-    }else{
+        breath.firstChild.data = '算力共享中'
+    }else if(!data.powerSharing && breath.className == 'breath-light'){
         breath.className = 'breath-light2'
-        breath.innerHTML = '共享已停止'
+        breath.firstChild.data = '共享已停止'
     }
-
-   
     if(pageLocation != 'Home'){
         if(syncHanderID != null){
             clearInterval(syncHanderID);
             syncHanderID = null;
         }
-        
         return;
     }
-
     var nodeNumber = document.getElementById('infoTile1_2');
     var balanceCNC = document.getElementById('infoTile4_2');
-    var balanceRNB = document.getElementById('infoTile4_3');
-
     var speedDisplay = document.getElementById('infoTile2_2')
     if(speedDisplay == null){
         return
@@ -551,16 +539,16 @@ function mainUpdate(data){
         count++
     }
     totalSpeed = totalSpeed.toFixed(2)
+    
     if(count == 0){
-        speedDisplay.innerHTML = totalSpeed+' B/s'
+        speedDisplay.firstChild.data = totalSpeed+' B/s'
     }else if(count == 1){
-        speedDisplay.innerHTML = totalSpeed+' Kb/s'
+        speedDisplay.firstChild.data = totalSpeed+' Kb/s'
     }else if(count == 2){
-        speedDisplay.innerHTML = totalSpeed+' Mb/s'
+        speedDisplay.firstChild.data = totalSpeed+' Mb/s'
     }else{
-        speedDisplay.innerHTML = totalSpeed+' Gb/s'
+        speedDisplay.firstChild.data = totalSpeed+' Gb/s'
     }
-
     //update local progress
     data.localProgresses.forEach(item => {
       
@@ -575,9 +563,8 @@ function mainUpdate(data){
     })
 
 
-    nodeNumber.innerHTML = data.nodeNumber;
-    balanceCNC.innerHTML = data.balanceCNC;
-    balanceRNB.innerHTML = '≈ ¥'+data.balanceRNB;
+    nodeNumber.firstChild.data = data.nodeNumber;
+    balanceCNC.firstChild.data = data.balanceCNC;
     var workList = data.workList;
 
     var parent = document.getElementById('leftWrapper');
@@ -2922,7 +2909,10 @@ function mainPage(){
         'mainUpdate',
         'update'
     );
-    syncHanderID = syncData();
+    if(syncHanderID == null){
+        syncHanderID = syncData();
+    }
+   
 
   
     var infoWrapper = document.createElement('div');
@@ -2941,7 +2931,7 @@ function mainPage(){
 
     var infoTile1_2 =document.createElement('div');
     infoTile1_2.className = 'infoMain';
-    // infoTile1_2.innerHTML = '53';
+    infoTile1_2.innerHTML = '0';
     infoTile1_2.id = 'infoTile1_2';
     infoBlock1.appendChild(infoTile1_2);
 
@@ -2957,7 +2947,7 @@ function mainPage(){
 
     var infoTile2_2 =document.createElement('div');
     infoTile2_2.className = 'infoMain';
-    // infoTile2_2.innerHTML = '5';
+    infoTile2_2.innerHTML = '0';
     infoTile2_2.id = 'infoTile2_2';
     infoBlock2.appendChild(infoTile2_2);
 
@@ -3015,15 +3005,15 @@ function mainPage(){
 
     var infoTile4_2 =document.createElement('div');
     infoTile4_2.className = 'infoMain';
-    // infoTile4_2.innerHTML = '12,000';
+    infoTile4_2.innerHTML = '0';
     infoTile4_2.id = 'infoTile4_2';
     infoBlock4.appendChild(infoTile4_2);
 
-    var infoTile4_3 =document.createElement('div');
-    infoTile4_3.className = 'infoTitleButton';
-    infoTile4_3.innerHTML = '≈ ¥';
-    infoTile4_3.id = 'infoTile4_3';
-    infoBlock4.appendChild(infoTile4_3);
+    // var infoTile4_3 =document.createElement('div');
+    // infoTile4_3.className = 'infoTitleButton';
+    // infoTile4_3.innerHTML = '≈ ¥';
+    // infoTile4_3.id = 'infoTile4_3';
+    // infoBlock4.appendChild(infoTile4_3);
 
     var listWrapper = document.createElement('div');
     listWrapper.className = 'listWrapper';

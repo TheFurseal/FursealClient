@@ -5,6 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "debug":"electron  --inspect=9229 .",
     "pack": "electron-builder --dir ",
     "distMac": "electron-builder --mac --x64",
     "distWin": "electron-builder --win --x64"
@@ -30,6 +31,7 @@
     "electron-webrtc": "^0.3.0"
   },
   "dependencies": {
+    "bs58": "^4.0.1",
     "debug": "^4.1.1",
     "defaults-deep": "^0.2.4",
     "diskusage-ng": "^0.2.4",
@@ -52,6 +54,7 @@
     "libp2p-tcp": "0.13.0",
     "libp2p-webrtc-star": "^0.16.1",
     "libp2p-websocket-star": "^0.10.2",
+    "libp2p-websockets": "0.12.4",
     "lz4": "^0.6.3",
     "lz4js": "^0.2.0",
     "lzfjs": "^1.0.1",

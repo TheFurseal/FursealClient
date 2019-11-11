@@ -14,14 +14,14 @@ var ipcManager = window.ipcManager
 
 var pageLocation;
 var listLocation;
-var syncHanderID = null;
-function syncData(){
-    
-    var handle = setInterval(() => {
+
+setInterval(() => {
+    if(pageCommon == 'Home'){
         ipcManager.clientEmit('mainUpdate','update')
-    }, 3000);
-    return handle
-}
+    }
+}, 3000);
+
+
 
 
 function constructList(parent,data){
@@ -518,13 +518,8 @@ function mainUpdate(data){
         breath.className = 'breath-light2'
         breath.firstChild.data = '共享已停止'
     }
-    if(pageLocation != 'Home'){
-        if(syncHanderID != null){
-            clearInterval(syncHanderID);
-            syncHanderID = null;
-        }
-        return;
-    }
+
+
     var nodeNumber = document.getElementById('infoTile1_2');
     var balanceCNC = document.getElementById('infoTile4_2');
     var speedDisplay = document.getElementById('infoTile2_2')
@@ -2909,9 +2904,6 @@ function mainPage(){
         'mainUpdate',
         'update'
     );
-    if(syncHanderID == null){
-        syncHanderID = syncData();
-    }
    
 
   

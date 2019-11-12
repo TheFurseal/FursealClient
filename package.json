@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "debug":"electron  --inspect=9229 .",
+    "debug": "electron  --inspect=9229 .",
     "pack": "electron-builder --dir ",
     "distMac": "electron-builder --mac --x64",
     "distWin": "electron-builder --win --x64"
@@ -26,16 +26,16 @@
   },
   "homepage": "https://github.com/TheFurseal/FursealClient#readme",
   "devDependencies": {
-    "electron": "^6.0.10",
-    "electron-builder": "21.2.0",
-    "electron-webrtc": "^0.3.0"
+    "electron": "latest",
+    "electron-builder": "latest",
+    "electron-webrtc": "latest"
   },
   "dependencies": {
     "bs58": "^4.0.1",
     "debug": "^4.1.1",
     "defaults-deep": "^0.2.4",
     "diskusage-ng": "^0.2.4",
-    "electron-updater": "^4.1.2",
+    "electron-updater": "latest",
     "ipfs": "^0.38.1",
     "ipfs-bitswap": "^0.25.1",
     "ipfs-repo": "^0.27.1",

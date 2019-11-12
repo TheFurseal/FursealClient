@@ -178,6 +178,7 @@ setInterval(() => {
     }else{
         if(!clearFlag){
             preFunction();
+            preFunction();
             clearFlag = true
         }
     }

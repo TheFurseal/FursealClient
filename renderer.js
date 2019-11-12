@@ -550,7 +550,6 @@ function mainUpdate(data){
        if(item.progress == 1){
            tmp.flag = 1
        }
-       console.log(tmp)
        addCarouselItem(tmp)
     })
 

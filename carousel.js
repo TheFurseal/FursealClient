@@ -171,9 +171,7 @@ var initCarousel = function(){
 
 var clearFlag = false
 setInterval(() => {
-    if(!init){
-        return
-    }
+    
     if(Object.keys(CarouselValueStorage).length){
         netxFunction();
         clearFlag = false

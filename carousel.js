@@ -1,5 +1,3 @@
-document.write("<script language='javascript' src='./hammer.js'></script>");
-
 var link = document.createElement("link");
 link.rel = "stylesheet";
 link.type = "text/css";
@@ -36,12 +34,15 @@ var removeCarouselItem = (item) => {
     delete CarouselValueStorage[item.key]
 }
 
-var Carousel = function(){
+
+var preFunction = null
+var netxFunction = null
+
+
+var initCarousel = function(){
     if(init){
-        return 
+        return
     }
-    init = true
-    // carousel
     const $ = selector => {
         return document.querySelector(selector);
       };
@@ -90,8 +91,11 @@ var Carousel = function(){
                 delete CarouselValueStorage[keys[fixed]]
             }
         }
-      }
-      
+        init = true
+    }
+
+    netxFunction = next
+
     function prev() {
         $(".new-next").remove();
           
@@ -130,6 +134,8 @@ var Carousel = function(){
             
         }
     }
+
+    preFunction = prev
       
     slide = element => {
     /* Next slide */
@@ -143,32 +149,40 @@ var Carousel = function(){
         prev();
     }
     }
-    
+
     const slider = $(".list"),
-        swipe = new Hammer($(".swipe"));
-    
+    swipe = new Hammer($(".swipe"));
+
     slider.onclick = event => {
     slide(event.target);
     }
-    
+
     swipe.on("swipeleft", (ev) => {
     next();
     });
-    
+
     swipe.on("swiperight", (ev) => {
     prev();
     });
-    var clearFlag = false
-    setInterval(() => {
-        if(Object.keys(CarouselValueStorage).length){
-            next();
-            clearFlag = false
-        }else{
-            if(!clearFlag){
-                next();
-                clearFlag = true
-            }
-        }
-    }, 3000);
+
 }
+
+
+
+var clearFlag = false
+setInterval(() => {
+    if(!init){
+        return
+    }
+    if(Object.keys(CarouselValueStorage).length){
+        netxFunction();
+        clearFlag = false
+    }else{
+        if(!clearFlag){
+            preFunction();
+            clearFlag = true
+        }
+    }
+}, 3000);
+
 

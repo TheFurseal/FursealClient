@@ -2,8 +2,7 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 
-document.write("<script language='javascript' src='./echarts.min.js'></script>");
-
+document.write("<script language='javascript' src='./echarts.min.js'></script>")
 var link = document.createElement("link");
 link.rel = "stylesheet";
 link.type = "text/css";
@@ -20,8 +19,6 @@ setInterval(() => {
         ipcManager.clientEmit('mainUpdate','update')
     }
 }, 3000);
-
-
 
 
 function constructList(parent,data){
@@ -2897,16 +2894,7 @@ function accountPage(){
 function mainPage(){
    
 
-   var mainWrapper = pageCommon('Home');
-
-    //get init data
-    ipcManager.clientEmit(
-        'mainUpdate',
-        'update'
-    );
-   
-
-  
+   var mainWrapper = pageCommon('Home');  
     var infoWrapper = document.createElement('div');
     infoWrapper.className = 'infoWrapper';
     infoWrapper.id = 'infoWrapper';
@@ -2980,9 +2968,7 @@ function mainPage(){
     carWrapper.appendChild(act)
     carWrapper.appendChild(next)
     carWrapper.appendChild(next2)
-    
-    Carousel()
-
+    initCarousel()
     var infoBlock4 = document.createElement('div');
     infoBlock4.className = 'infoBlock';
     infoBlock4.style.marginLeft = '61%';

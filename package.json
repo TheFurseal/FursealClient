@@ -26,8 +26,8 @@
   },
   "homepage": "https://github.com/TheFurseal/FursealClient#readme",
   "devDependencies": {
-    "electron": "latest",
-    "electron-builder": "latest",
+    "electron": "^6.0.10",
+    "electron-builder": "^21.2.0",
     "electron-webrtc": "latest"
   },
   "dependencies": {
@@ -35,7 +35,7 @@
     "debug": "^4.1.1",
     "defaults-deep": "^0.2.4",
     "diskusage-ng": "^0.2.4",
-    "electron-updater": "latest",
+    "electron-updater": "^4.1.2",
     "ipfs": "^0.38.1",
     "ipfs-bitswap": "^0.25.1",
     "ipfs-repo": "^0.27.1",
@@ -61,7 +61,6 @@
     "merge-options": "1.0.1",
     "multiaddr": "6.1.0",
     "node-ipc": "^9.1.1",
-    "npm": "^6.11.3",
     "peer-book": "0.9.1",
     "peer-id": "0.12.2",
     "peer-info": "0.15.1",

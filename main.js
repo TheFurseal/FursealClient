@@ -9,7 +9,10 @@ const { autoUpdater } = require("electron-updater")
 
 const fs = require('fs')
 
-const gotTheLock = app.requestSingleInstanceLock()
+var gotTheLock = app.requestSingleInstanceLock()
+if(!gotTheLock){
+  app.exit()
+}
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -24,8 +27,6 @@ if(process.platform == 'win32'){
 	h=530;
 }
 
-
-
 function initCore(){
   if(app.nodeCore == null){
     app.nodeCore = new Furseal(app.getPath('appData')+'/CoTNetwork')
@@ -34,8 +35,10 @@ function initCore(){
 }
 
 function createWindow () {
+
   if (!gotTheLock) {
-    app.quit()
+    console.log('Fureseal client already runing')
+    app.exit()
   }
   // Create the browser window.
   mainWindow = new BrowserWindow({
@@ -51,9 +54,10 @@ function createWindow () {
   })
 
   mainWindow.setFullScreenable(false);
-  mainWindow.setMaximizable(false);
+  //mainWindow.maximizable(false)
   mainWindow.removeMenu();
-  // mainWindow.setResizable(false);
+  //mainWindow.resizable(false)
+  mainWindow.setResizable(false);
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
@@ -120,7 +124,7 @@ app.on('ready', () => {
   try{
     autoUpdater.checkForUpdates()
   }catch(e){
-    console.error(e)
+     console.error(e)
   }
   if(process.platform == 'win32'){
     tray = new Tray(path.join(__dirname, 'static/images/ic_launcher_round.png'))

@@ -14,12 +14,6 @@ var ipcManager = window.ipcManager
 var pageLocation;
 var listLocation;
 
-setInterval(() => {
-    if(pageLocation == 'Home'){
-        ipcManager.clientEmit('mainUpdate','update')
-    }
-}, 3000);
-
 
 function constructList(parent,data){
     var dataTmp = data;
@@ -3072,7 +3066,10 @@ ipcManager.addClientListenner('register',(data) => {
     }
 })
 ipcManager.addClientListenner('mainUpdate',(data) => {
-    mainUpdate(data)
+    if(pageLocation == 'Home'){
+        mainUpdate(data)
+    }
+    
 })
 ipcManager.addClientListenner('updateBlockStatus',(data) => {
     updateBlockStatus(data)

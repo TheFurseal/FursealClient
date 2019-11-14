@@ -6,12 +6,23 @@ const ipcMain = require('electron').ipcMain
 const process = require('process')
 const Furseal = require('./Furseal/index.js')
 const { autoUpdater } = require("electron-updater")
-
 const fs = require('fs')
 
 var gotTheLock = app.requestSingleInstanceLock()
 if(!gotTheLock){
   app.exit()
+}
+
+if(app.isPackaged){
+  var logPath = app.getPath('appData')+'/CoTNetwork/logs'
+  if(!fs.existsSync(logPath)){
+    fs.mkdirSync(logPath,{recursive:true})
+  }
+
+  var access = fs.createWriteStream(logPath + '/Furseal.access.log', { flags: 'a' })
+  var error = fs.createWriteStream(logPath + '/Furseal.error.log', { flags: 'a' });
+  process.stdout.pipe(access);
+  process.stderr.pipe(error);
 }
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -24,7 +35,7 @@ let tray = null
 var w =1000;
 var h = 500;
 if(process.platform == 'win32'){
-	h=530;
+	h=550;
 }
 
 function initCore(){
@@ -186,7 +197,10 @@ app.on('activate', (event, hasVisibleWindows) => {
         mainWindow.restore()
       }
     }else{
-      mainWindow.restore()
+      if(mainWindow != null){
+        mainWindow.restore()
+      }
+     
     }
   }
 })

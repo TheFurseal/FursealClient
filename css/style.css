@@ -46,7 +46,7 @@
     background-size: 10% 70%;
     background-position-y: 50%;
     background-position-x: 10px;
-    background-image: url('static/images/transfer.png');
+    background-image: url('../static/images/transfer.png');
     
     
 } */
@@ -225,7 +225,7 @@
     margin-left: 80%;
     width: 30px;
     height: 20px;
-    background-image: url('static/images/connected.png');
+    background-image: url('../static/images/connected.png');
     background-size: 70% 100%;
     background-position-y: 5px;
     background-position-x: 5%;
@@ -241,7 +241,7 @@
     margin-left: 80%;
     width: 30px;
     height: 20px;
-    background-image: url('static/images/disconnect.png');
+    background-image: url('../static/images/disconnect.png');
     background-size: 70% 100%;
     background-position-y: 5px;
     background-position-x: 5%;
@@ -388,7 +388,7 @@
     width: 20px;
     /* border: solid; */
     margin-left: 130%;
-    background: url('static/images/delete.png');
+    background: url('../static/images/delete.png');
     background-size: 100% 100%;
     background-position-y: 50%;
     background-repeat: no-repeat;
@@ -431,7 +431,7 @@
     border-radius: 50%;
     background: #5d6268;
     box-shadow: 0px 1px 2px 1px #f3f3f3;
-    /*background-image: url('static/images/user.jpg');*/
+    /*background-image: url('../static/images/user.jpg');*/
     background-size: 100% 100%;
     background-position-y: 50%;
 }
@@ -500,7 +500,7 @@
     font-family: Arial, Helvetica, sans-serif;
     font-size: 100%;
     transition : width .2s, height .2s , opacity 0.2s 0.2s;
-    background-image: url('static/images/valet.png');
+    background-image: url('../static/images/valet.png');
     background-size: 20% 50%;
     background-position-y: 40%;
     background-position-x: 5%;
@@ -611,7 +611,7 @@
     height: 18px;
     width: 70px;
     margin-left: 30px;
-    background-image: url('static/images/resend.png');
+    background-image: url('../static/images/resend.png');
     background-position-y: 3px;
     background-position-x: 0px;
     background-size: 18px 12px;
@@ -635,7 +635,7 @@
     width: 50px;
     margin-left: 750px;
     margin-top: 10px;
-    background-image: url('static/images/upload.png');
+    background-image: url('../static/images/upload.png');
     background-size: 30% 30%;
     background-repeat: no-repeat;
     z-index: 999;
@@ -717,7 +717,7 @@
     width: 30px;
     height: 30px;
     margin-left: 650px;
-    background-image: url('static/images/buy.png');
+    background-image: url('../static/images/buy.png');
     background-size: 80% 80%;
     background-position-y: 60%;
     background-repeat: no-repeat;

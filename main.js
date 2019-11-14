@@ -13,17 +13,20 @@ if(!gotTheLock){
   app.exit()
 }
 
+var date = new Date()
 if(app.isPackaged){
   var logPath = app.getPath('appData')+'/CoTNetwork/logs'
   if(!fs.existsSync(logPath)){
     fs.mkdirSync(logPath,{recursive:true})
   }
 
-  var access = fs.createWriteStream(logPath + '/Furseal.access.log', { flags: 'a' })
-  var error = fs.createWriteStream(logPath + '/Furseal.error.log', { flags: 'a' });
-  process.stdout.pipe(access);
-  process.stderr.pipe(error);
+  var access = fs.createWriteStream(logPath + '/Furseal'+date.valueOf()+'.log', { flags: 'a' })
+  process.stdout.write = process.stderr.write  = access.write.bind(access)
 }
+
+process.on('uncaughtException', function(err) {
+  console.error((err && err.stack) ? err.stack : err);
+});
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

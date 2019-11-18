@@ -22,6 +22,7 @@ if(app.isPackaged){
 
   var access = fs.createWriteStream(logPath + '/Furseal'+date.valueOf()+'.log', { flags: 'a' })
   process.stdout.write = process.stderr.write  = access.write.bind(access)
+}else{
 }
 
 process.on('uncaughtException', function(err) {

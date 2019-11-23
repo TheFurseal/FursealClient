@@ -56,9 +56,14 @@ function createWindow () {
     app.exit()
   }
   // Create the browser window.
+  var frame = true
+  if(process.platform == 'win32'){
+    frame = false
+  }
   mainWindow = new BrowserWindow({
     width: w,
     height: h,
+    frame:frame,
     titleBarStyle: 'hidden',
     webPreferences: {
       nodeIntegration: false,

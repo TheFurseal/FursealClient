@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/TheFurseal/FursealClient#readme",
   "devDependencies": {
-    "electron": "^6.0.10",
+    "electron": "6.0.10",
     "electron-builder": "^21.2.0",
     "electron-webrtc": "latest"
   },
@@ -46,7 +46,7 @@
     "libp2p-bootstrap": "0.9.7",
     "libp2p-connection-manager": "^0.1.0",
     "libp2p-crypto": "^0.16.1",
-    "libp2p-kad-dht": "0.15.2",
+    "libp2p-kad-dht": "0.16.1",
     "libp2p-mdns": "0.12.3",
     "libp2p-mplex": "^0.8.5",
     "libp2p-pnet": "^0.1.0",
@@ -72,7 +72,6 @@
     "pull-stream": "^3.6.14",
     "rage-edit": "^1.2.0",
     "recursive-readdir": "^2.2.2",
-    "v8-profiler-node8": "^6.1.1",
     "webrtc": "^1.14.1"
   },
   "build": {

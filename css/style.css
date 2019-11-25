@@ -206,7 +206,6 @@
     background-position-x: 10%;
     border-radius: 5px;
     color: #181819;
-    background-color: #F5F5F5;
     line-height: 300%;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
@@ -219,16 +218,20 @@
 
 .dividorInfoItemWrapper{
     padding-left: 2%;
-    width: 98%;
+    margin-top: 3px;
+    width: 97%;
     height: 25px;
     line-height: 34px;
     border-radius: 5px;
+    box-shadow: 0px 1px 2px 1px #b7b6b6;
+    background: linear-gradient(90deg, #73c700 5%, #ffffff 1.5%);
 }
 
 .dividorStatusButtonActive{
    
     position: absolute;
     margin-left: 80%;
+    margin-top: -2px;
     width: 30px;
     height: 20px;
     background-image: url('../static/images/connected.png');
@@ -236,7 +239,9 @@
     background-position-y: 5px;
     background-position-x: 5%;
     background-repeat: no-repeat;
-
+}
+.dividorStatusButtonActive:hover{
+    background-size: 75% 105%;
 }
 
 
@@ -253,6 +258,10 @@
     background-position-x: 5%;
     background-repeat: no-repeat;
 
+}
+
+.dividorStatusButtonDisable:hover{
+    background-size: 75% 105%;
 }
 
 .hover{

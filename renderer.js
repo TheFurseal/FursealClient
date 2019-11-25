@@ -658,11 +658,14 @@ function updateActiveDividor(ret){
             var dName = document.createElement('div')
             dName.innerHTML = element.dividorName
             dName.style.position = 'absolute'
+            dName.style.paddingLeft = '5.2%'
+            dName.style.marginTop = '-3px'
             tmp.appendChild(dName)
 
             var sName = document.createElement('div')
             sName.innerHTML = element.setName
             sName.style.position = 'absolute'
+            sName.style.marginTop = '-3px'
             sName.style.marginLeft = '40%'
             tmp.appendChild(sName)
 

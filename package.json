@@ -68,10 +68,12 @@
     "peer-id": "0.12.2",
     "peer-info": "0.15.1",
     "pull-mplex": "0.1.2",
+    "pull-pair":"^1.1.0",
     "pull-pushable": "2.2.0",
     "pull-stream": "^3.6.14",
     "rage-edit": "^1.2.0",
     "recursive-readdir": "^2.2.2",
+    "uuid": "^3.3.3",
     "webrtc": "^1.14.1"
   },
   "build": {

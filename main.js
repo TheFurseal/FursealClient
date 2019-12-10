@@ -19,7 +19,6 @@ if(app.isPackaged){
   if(!fs.existsSync(logPath)){
     fs.mkdirSync(logPath,{recursive:true})
   }
-
   var access = fs.createWriteStream(logPath + '/Furseal'+date.valueOf()+'.log', { flags: 'a' })
   process.stdout.write = process.stderr.write  = access.write.bind(access)
 }else{
@@ -50,7 +49,6 @@ function initCore(){
 }
 
 function createWindow () {
-
   if (!gotTheLock) {
     console.log('Fureseal client already runing')
     app.exit()
@@ -70,7 +68,6 @@ function createWindow () {
       preload: path.join(__dirname, 'preload.js')
     },
     icon: path.join(__dirname, 'static/images/icon.png')
-   
   })
 
   mainWindow.setFullScreenable(false);
@@ -87,8 +84,6 @@ function createWindow () {
   if(process.env.COT_DEV == true){
     mainWindow.webContents.openDevTools()
   }
-
-
   mainWindow.on('close',(event) => {
 
   })
@@ -165,9 +160,6 @@ app.on('ready', () => {
       createWindow()
     })
   }
-
-
-  
 })
 
 // Quit when all windows are closed.
@@ -195,10 +187,7 @@ app.on('will-quit',(event) => {
 })
 
 app.on('activate', (event, hasVisibleWindows) => {
-  console.log('activate !')
-  console.log(process.platform)
   if(process.platform == 'darwin'){
-    
     if(!hasVisibleWindows){
       if(mainWindow == null){
         createWindow()
@@ -209,17 +198,13 @@ app.on('activate', (event, hasVisibleWindows) => {
       if(mainWindow != null){
         mainWindow.restore()
       }
-     
     }
   }
 })
-
-
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
 //ipc singnal
-
 ipcMain.on('select-file', (event, arg) => {
   dialog.showOpenDialog({
     properties: ['openFile']
@@ -229,7 +214,6 @@ ipcMain.on('select-file', (event, arg) => {
     ret.type = arg
     if (files) event.sender.send('selected-file', ret)
   })
-  
 });
 
 

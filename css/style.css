@@ -909,7 +909,7 @@
     text-align: center;
     color: #ffffff;
     background: #c2c2c2;
-    box-shadow: 0 0 60px #ffffff;
+    box-shadow: 0 1px 2px 1px #b7b6b6;
   }
 
 .breath-light {
@@ -921,7 +921,7 @@
     width: 100px;
     border-radius: 3px 0px 0px 3px;
     background: #73c700;
-    box-shadow: 0 0 60px #ffffff;
+    box-shadow: 0 1px 2px 1px #b7b6b6;
     font-family: 'Arial, Helvetica, sans-serif';
     font-size: 12px;
     line-height: 20px;
@@ -931,6 +931,7 @@
     animation: breath 6s;
     -webkit-animation-iteration-count: infinite;
     animation-iteration-count: infinite;
+
   }
   
   @-webkit-keyframes breath {

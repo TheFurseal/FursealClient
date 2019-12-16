@@ -36,10 +36,7 @@ let tray = null
 
 
 var w =1000;
-var h = 500;
-if(process.platform == 'win32'){
-	h=550;
-}
+var h = 550;
 
 function initCore(){
   if(app.nodeCore == null){
@@ -49,6 +46,7 @@ function initCore(){
 }
 
 function createWindow () {
+  console.log('create 0')
   if (!gotTheLock) {
     console.log('Fureseal client already runing')
     app.exit()
@@ -92,6 +90,7 @@ function createWindow () {
 autoUpdater.on('update-not-available',() => {
   console.log('No available update detected, start core')
   initCore()
+  console.log('create 1')
   createWindow()
 })
 
@@ -99,6 +98,7 @@ autoUpdater.on('error', err => {
   console.log(err)
   setImmediate(() => {
     initCore()
+    console.log('create 2')
     createWindow()
   }) 
 })
@@ -146,6 +146,7 @@ app.on('ready', () => {
     const contexMenu = Menu.buildFromTemplate([
       {
         label:"ShowApp",click: () => {
+        console.log('create 3')
         createWindow()
       }},
       {
@@ -157,6 +158,7 @@ app.on('ready', () => {
     tray.setToolTip('Furseal')
     tray.setContextMenu(contexMenu)
     tray.on('click',() => {
+      console.log('create 4')
       createWindow()
     })
   }
@@ -190,6 +192,7 @@ app.on('activate', (event, hasVisibleWindows) => {
   if(process.platform == 'darwin'){
     if(!hasVisibleWindows){
       if(mainWindow == null){
+        console.log('create 5')
         createWindow()
       }else{
         mainWindow.restore()

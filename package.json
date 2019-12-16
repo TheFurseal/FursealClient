@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/TheFurseal/FursealClient#readme",
   "devDependencies": {
-    "electron": "6.0.10",
+    "electron": "^6.0.10",
     "electron-builder": "^21.2.0",
     "electron-webrtc": "latest"
   },

@@ -173,13 +173,19 @@ var clearFlag = false
 setInterval(() => {
     
     if(Object.keys(CarouselValueStorage).length){
-        netxFunction();
-        clearFlag = false
+        if(typeof(netxFunction) == 'function'){
+            netxFunction();
+            clearFlag = false
+        }
+        
     }else{
         if(!clearFlag){
-            preFunction();
-            preFunction();
-            clearFlag = true
+            if(typeof(preFunction) == 'function'){
+                preFunction();
+                preFunction();
+                clearFlag = true
+            }
+            
         }
     }
 }, 3000);

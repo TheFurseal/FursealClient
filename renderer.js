@@ -8,6 +8,8 @@ link.rel = "stylesheet";
 link.type = "text/css";
 link.href = "./css/style.css";
 document.getElementsByTagName("head")[0].appendChild(link);
+link.href = "./css/login.css";
+document.getElementsByTagName("head")[0].appendChild(link);
 
 var ipcManager = window.ipcManager
 
@@ -572,6 +574,10 @@ function settingPage(){
 
 function exitPage(){
     pageCommon('Exit');
+    window.nodeCore.shutdown()
+    if(window.fs.existsSync(window.appPath+'/pass')){
+        window.fs.unlinkSync(window.appPath+'/pass')
+    }
     loginPage();
 }
 
@@ -957,6 +963,9 @@ function appStorePage(){
 }
 
 function pageCommon(location){
+   
+    document.body.style.margin='5px'
+    document.documentElement.style.margin='5px';
     pageLocation = location
 
     while (document.body.firstChild) {
@@ -1641,7 +1650,9 @@ function encode(data){
 
 
 function loginPage(){
-
+    console.log('loginPage')
+    document.body.style.margin='0'
+    document.documentElement.style.margin='0';
     // if there was a saved data
     if(window.nodeCore.devStat.isLogin()){
         console.log('already login')
@@ -1662,83 +1673,226 @@ function loginPage(){
         document.body.removeChild( document.body.firstChild);
     }
 
-    var mainWrapper = document.createElement('div');
-    mainWrapper.style.height = '500px';
-    mainWrapper.style.width = '1000px';
-    mainWrapper.style.backgroundImage = "url('static/images/bg-login.png')";
-    mainWrapper.style.backgroundSize ='100% 100%';
-    mainWrapper.style.backgroundRepeat ='no-repeat';
-    mainWrapper.style.overflow = 'visible';
-    mainWrapper.style.position = 'absolute';
-    mainWrapper.style.marginTop = '-8.5px';
-    mainWrapper.style.marginLeft = '-8.5px';
-    mainWrapper.style.webkitAppRegion = "drag";
-    document.body.appendChild(mainWrapper);
+    var container = document.createElement('div')
+    container.className = 'container'
+    document.body.appendChild(container)
+    var overlay = document.createElement('div')
+    overlay.className = 'overlay'
+    container.appendChild(overlay)
 
-    //phone number input frame
-    var phInput = document.createElement('input');
-    phInput.style.position = 'absolute';
-    phInput.style.height = '30px';
-    phInput.style.width = '200px';
-    phInput.style.borderRadius = '10px';
-    phInput.style.outline = '0';
-    phInput.style.border = '1px solid #d8d8d8';
-    phInput.style.boxShadow = 'border background';
-    phInput.style.marginTop = '130px';
-    phInput.style.marginLeft = '120px';
-    phInput.style.textIndent = '10px';
-    phInput.name = 'text';
-    phInput.type = 'text';
-    phInput.id = 'phoneNumber';
-    phInput.onkeyup = function(){
-        this.value=this.value.replace(/\D/g,'')
+    var form = document.createElement('div')
+    form.className = 'form'
+    form.action = ''
+    container.appendChild(form)
+
+    var rightText = document.createElement('div')
+    rightText.id = 'sign-up'
+    rightText.className = 'sign-up'
+    overlay.appendChild(rightText)
+    var text21 = document.createElement('h1')
+    text21.innerHTML = '欢迎回来！'
+    rightText.appendChild(text21)
+    var text22 = document.createElement('p')
+    text22.innerHTML = "如果您还未拥有账户，请输入账户信息进行注册"
+    rightText.appendChild(text22)
+    var openSignUpButton = document.createElement('button')
+    openSignUpButton.className = 'switch-button'
+    openSignUpButton.id = 'slide-left-button'
+    openSignUpButton.innerHTML = '注册'
+    rightText.appendChild(openSignUpButton)
+
+    var leftText = document.createElement('div')
+    leftText.id = 'sign-in'
+    leftText.className = 'sign-in'
+    overlay.appendChild(leftText)
+    var text11 = document.createElement('h1')
+    text11.innerHTML = '欢迎加入！'
+    leftText.appendChild(text11)
+    var text12 = document.createElement('p')
+    text12.innerHTML = "如果您已经拥有账户，请输入账户信息登录"
+    leftText.appendChild(text12)
+    var openSignInButton = document.createElement('button')
+    openSignInButton.className = 'switch-button'
+    openSignInButton.id = 'slide-right-button'
+    openSignInButton.innerHTML = '登录'
+    leftText.appendChild(openSignInButton)
+
+    var icon1Text = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg  width="200px" height="200.00px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="#333333" d="M869.485714 627.657143c-18.285714-58.742857-39.314286-108.114286-71.657143-188.914286C802.857143 226.514286 714.628571 54.857143 511.428571 54.857143 305.942857 54.857143 219.657143 229.942857 225.142857 438.742857c-32.457143 80.914286-53.371429 129.942857-71.657143 188.914286-38.857143 125.142857-26.285714 176.914286-16.685714 178.057143 20.571429 2.514286 80.114286-94.171429 80.114286-94.171429 0 56 28.8 129.028571 91.2 181.714286-30.171429 9.257143-97.942857 34.171429-81.828572 61.485714 13.028571 22.057143 224.228571 14.057143 285.142857 7.2 60.914286 6.857143 272.114286 14.857143 285.142858-7.2 16.114286-27.2-51.771429-52.228571-81.828572-61.485714 62.4-52.8 91.2-125.828571 91.2-181.714286 0 0 59.542857 96.685714 80.114286 94.171429 9.714286-1.257143 22.285714-53.028571-16.571429-178.057143z" /></svg>'
+    var icon2Text =  '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg  width="200px" height="200.00px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="#333333" d="M683.264 324.288c10.24 0 20.224 0.448 30.4 1.408C690.688 179.776 547.584 67.328 374.4 67.328c-189.184 0-342.528 134.208-342.528 299.712 0 92.544 48 175.296 123.264 230.336-9.6 48.128-21.568 111.424-19.84 109.312 2.624-0.96 68.8-37.696 110.4-61.76 39.744 14.016 83.136 21.888 128.704 21.888 4.8 0 9.472-0.128 14.272-0.256-5.312-20.672-8.064-41.856-8.064-64-0.064-153.664 135.424-278.272 302.656-278.272z m-174.336-97.856c23.68 0 42.816 19.136 42.816 42.752 0 23.68-19.2 42.88-42.816 42.88-23.616 0-42.816-19.264-42.816-42.88 0-23.616 19.2-42.752 42.816-42.752z m-262.976 85.632c-23.68 0-42.752-19.264-42.752-42.88 0-23.616 19.136-42.752 42.752-42.752s42.816 19.136 42.816 42.752c0 23.68-19.2 42.88-42.816 42.88z m746.176 281.28c0-138.496-131.392-250.752-293.504-250.752-162.176 0-293.632 112.32-293.632 250.752 0 138.496 131.456 250.88 293.632 250.88 44.096 0 85.888-8.384 123.52-23.296C860.864 841.6 903.04 863.36 905.152 864c1.472 1.6-6.848-38.912-15.872-79.808 62.848-46.208 102.848-114.432 102.848-190.848z m-403.648-55.04c-23.68 0-42.88-19.136-42.88-42.752 0-23.616 19.2-42.88 42.88-42.88 23.616 0 42.752 19.264 42.752 42.88 0 23.616-19.136 42.752-42.752 42.752z m214.016 0c-23.616 0-42.88-19.136-42.88-42.752 0-23.616 19.264-42.88 42.88-42.88s42.88 19.264 42.88 42.88c0 23.616-19.264 42.752-42.88 42.752z" /></svg>'
+    var icon3Text = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg  width="200px" height="200.00px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="#333333" d="M655.129326 613.697193C726.316645 486.574934 751.741711 364.540554 751.741711 364.540554l-12.710486 0 0 0L629.7104 364.540554l-114.405633 0L515.304767 278.103926l279.657304 0 0-38.139645L515.304767 239.96428 515.304767 105.219413 388.182508 105.219413l0 134.744867-254.240425 0 0 38.139645 254.240425 0 0 88.98159L169.535743 367.085516l0 38.134529 439.833377 0c0 7.627724 0 7.627724-7.628748 12.707416 0 45.769416-33.045627 109.327988-58.471716 160.178119-325.425697-127.124306-419.497213-50.847062-444.920232-38.139645-216.10078 152.546302-12.709463 343.225085 20.342304 338.142324 228.814336 50.843992 376.268666-45.769416 477.966882-165.257811 7.627724 7.628748 12.71151 7.628748 20.338211 7.628748 71.185272 38.134529 406.782633 198.301392 406.782633 198.301392l0-190.672644C972.930369 723.016994 787.335371 659.4574 655.129326 613.697193L655.129326 613.697193zM489.878678 672.166863C329.709769 875.561249 139.028938 812.002678 108.523157 799.291169c-76.273151-20.342304-101.698217-160.170956-7.627724-203.39234 160.168909-50.847062 300.001655 7.624654 401.693732 58.474786C494.960417 664.540162 489.878678 672.166863 489.878678 672.166863L489.878678 672.166863z" /></svg>'
+    var signUpInfo = document.createElement('div')
+    signUpInfo.id = 'sign-up-info'
+    signUpInfo.className = 'sign-up'
+    form.appendChild(signUpInfo)
+
+    var text51 = document.createElement('h1')
+    text51.innerHTML = '创建账户'
+    signUpInfo.appendChild(text51)
+    var social2 = document.createElement('div')
+    social2.className = 'social-media-buttons'
+    signUpInfo.appendChild(social2)
+    var icon21 = document.createElement('div')
+    icon21.className = 'icon'
+    icon21.innerHTML = icon1Text
+    social2.appendChild(icon21)
+    var icon22 = document.createElement('div')
+    icon22.className = 'icon'
+    icon22.innerHTML = icon2Text
+    social2.appendChild(icon22)
+    var icon23 = document.createElement('div')
+    icon23.className = 'icon'
+    icon23.innerHTML = icon3Text
+    social2.appendChild(icon23)
+
+    var text52 = document.createElement('p')
+    text52.className = 'small'
+    text52.innerHTML = '或者使用手机号码进行注册'
+    signUpInfo.appendChild(text52)
+
+    var signUpForm = document.createElement('form')
+    signUpForm.action = ''
+    signUpForm.id = 'sign-up-form'
+    signUpInfo.appendChild(signUpForm)
+    var regName = document.createElement('input')
+    regName.type = 'text'
+    regName.placeHolder = '用户名'
+    signUpForm.appendChild(regName)
+    var regPhoneNumber = document.createElement('input')
+    regPhoneNumber.type = 'text'
+    regPhoneNumber.style.placeHolder = '手机号'
+    signUpForm.appendChild(regPhoneNumber)
+    var regPass = document.createElement('input')
+    regPass.type = 'password'
+    regPass.style.placeHolder = '密码'
+    signUpForm.appendChild(regPass)
+    var registerButton = document.createElement('button')
+    registerButton.className = 'control-button up'
+    registerButton.innerHTML = '注册'
+    signUpForm.appendChild(registerButton)
+  
+
+    var signInInfo = document.createElement('div')
+    signInInfo.className = 'sign-in'
+    signInInfo.id = 'sign-in-info'
+    form.appendChild(signInInfo)
+    var text31 = document.createElement('h1')
+    text31.innerHTML = '登录'
+    signInInfo.appendChild(text31)
+    var socailm = document.createElement('div')
+    socailm.className = 'social-media-buttons'
+    signInInfo.appendChild(socailm)
+    var icon1 = document.createElement('div')
+    icon1.className = 'icon'
+    socailm.appendChild(icon1)
+    icon1.innerHTML = icon1Text
+    var icon2 = document.createElement('div')
+    icon2.className = 'icon'
+    socailm.appendChild(icon2)
+    icon2.innerHTML = icon2Text
+    var icon3 = document.createElement('div')
+    icon3.className = 'icon'
+    socailm.appendChild(icon3)
+    icon3.innerHTML = icon3Text
+    
+    var text41 = document.createElement('p')
+    text41.className = 'small'
+    text41.innerHTML = '或者使用手机号码登录'
+    signInInfo.appendChild(text41)
+
+    var signInForm = document.createElement('form')
+    signInForm.action = ''
+    signInForm.id = 'sign-in-form'
+    signInInfo.appendChild(signInForm)
+    var phoneInput = document.createElement('input')
+    phoneInput.type = 'email'
+    phoneInput.style.placeHolder='手机号码'
+    signInForm.appendChild(phoneInput)
+    var passwordInput = document.createElement('input')
+    passwordInput.type = 'password'
+    passwordInput.style.placeHolder = '密码'
+    signInForm.appendChild(passwordInput)
+    var rmText = document.createElement('p')
+    rmText.className = 'remember-password'
+    rmText.innerHTML = '记住密码'
+    signInForm.appendChild(rmText)
+    var remember = document.createElement('input')
+    remember.type = 'checkbox'
+    remember.zIndex = '9999'
+    signInForm.appendChild(remember)
+
+    
+
+    var forgot = document.createElement('p')
+    forgot.className = 'forgot-password'
+    forgot.innerHTML = '忘记密码？'
+    signInForm.appendChild(forgot)
+    var submitButton = document.createElement('button')
+    submitButton.className = 'control-button in'
+    submitButton.innerHTML = '登录'
+    signInForm.appendChild(submitButton)
+
+    
+
+
+
+    // Open the Sign Up page
+    openSignUp = () =>{
+    // Remove classes so that animations can restart on the next 'switch'
+    leftText.classList.remove("overlay-text-left-animation-out");
+    overlay.classList.remove("open-sign-in");
+    rightText.classList.remove("overlay-text-right-animation");
+    // Add classes for animations
+    signInInfo.className += " form-left-slide-out"
+    rightText.className += " overlay-text-right-animation-out";
+    overlay.className += " open-sign-up";
+    leftText.className += " overlay-text-left-animation";
+    // hide the sign up form once it is out of view
+    setTimeout(function(){
+        signInInfo.classList.remove("form-left-slide-in");
+        signInInfo.style.display = "none";
+        signInInfo.classList.remove("form-left-slide-out");
+    }, 1000);
+    // display the sign in form once the overlay begins moving right
+    setTimeout(function(){
+        signUpInfo.style.display = "flex";
+        signUpInfo.classList += " form-right-slide-in";
+    }, 700);
     }
-    phInput.onafterpaste = function(){
-        this.value=this.value.replace(/\D/g,'');
+
+    // Open the Sign In page
+    openSignIn = () =>{
+    // Remove classes so that animations can restart on the next 'switch'
+    leftText.classList.remove("overlay-text-left-animation");
+    overlay.classList.remove("open-sign-up");
+    rightText.classList.remove("overlay-text-right-animation-out");
+    // Add classes for animations
+    signUpInfo.classList += " form-right-slide-out";
+    leftText.className += " overlay-text-left-animation-out";
+    overlay.className += " open-sign-in";
+    rightText.className += " overlay-text-right-animation";
+    // hide the sign in form once it is out of view
+    setTimeout(function(){
+        signUpInfo.classList.remove("form-right-slide-in")
+        signUpInfo.style.display = "none";
+        signUpInfo.classList.remove("form-right-slide-out")
+    },1000);
+    // display the sign up form once the overlay begins moving left
+    setTimeout(function(){
+        signInInfo.style.display = "flex";
+        signInInfo.classList += " form-left-slide-in";
+    },700);
     }
-    
-    mainWrapper.appendChild(phInput);
 
-    //password input frame
+    openSignIn()
+    // When a 'switch' button is pressed, switch page
+    openSignUpButton.addEventListener("click", openSignUp, false);
+    openSignInButton.addEventListener("click", openSignIn, false);
 
-    var pdInput = document.createElement('input');
-    pdInput.style.position = 'absolute';
-    pdInput.style.height = '30px';
-    pdInput.style.width = '200px';
-    pdInput.style.borderRadius = '10px';
-    pdInput.style.textIndent = '10px';
-    pdInput.style.outline = '0';
-    pdInput.style.border = '1px solid #d8d8d8';
-    pdInput.style.boxShadow = 'border background';
-    pdInput.style.marginTop = '180px';
-    pdInput.style.marginLeft = '120px';
-    pdInput.name = 'text';
-    pdInput.type = 'text';
-    pdInput.id = 'passwordNumber';
-    pdInput.type = 'password';
-    
-    
-    mainWrapper.appendChild(pdInput);
-
-    var remember = document.createElement('input');
-    remember.type = 'checkbox';
-    remember.className = 'logInCheckBox';
-    remember.innerHTML ='Remember me?';
-    mainWrapper.appendChild(remember);
-
-    var submitButton = document.createElement('div');
-    submitButton.style.position = 'absolute';
-    submitButton.style.height = '30px';
-    submitButton.style.width = '200px';
-    submitButton.style.borderRadius = '10px';
-    submitButton.style.textIndent = '10px';
-    submitButton.style.marginTop = '230px';
-    submitButton.style.marginLeft = '120px';
-    submitButton.style.border = '2px solid #73c700';
     submitButton.onclick = function(){
         var data = {};
-        data.phoneNumber = phInput.value;
-        data.password = pdInput.value;
+        data.phoneNumber = phoneInput.value;
+        data.password = passwordInput.value;
+        console.log(JSON.stringify(data))
         if(remember.checked){
             var tmp = encode(data);
             window.fs.writeFile(window.appPath+'/pass',tmp,(err) => {
@@ -1747,27 +1901,44 @@ function loginPage(){
                 }
             });
         }
-
         window.nodeCore.login(data);
-        
+        return false
     }
-    mainWrapper.appendChild(submitButton);
 
-    var registerButton = document.createElement('div');
-    registerButton.style.position = 'absolute';
-    registerButton.style.height = '30px';
-    registerButton.style.width = '200px';
-    registerButton.style.borderRadius = '10px';
-    registerButton.style.textIndent = '10px';
-    registerButton.style.marginTop = '380px';
-    registerButton.style.marginLeft = '120px';
-    registerButton.style.border = '2px solid #73c700';
     registerButton.onclick = function(){
-        console.log(phInput.value);
-        console.log(pdInput.value);
-        //window.nodeCore
-        registerPage();
+        console.log("registerButton")
+        return false
     }
-    mainWrapper.appendChild(registerButton);
+    
+
+    
+
+   
+
+   
+    // submitButton.onclick = function(){
+    //     var data = {};
+    //     data.phoneNumber = phInput.value;
+    //     data.password = pdInput.value;
+    //     if(remember.checked){
+    //         var tmp = encode(data);
+    //         window.fs.writeFile(window.appPath+'/pass',tmp,(err) => {
+    //             if(err){
+    //                 console.error(err);
+    //             }
+    //         });
+    //     }
+
+    //     window.nodeCore.login(data);
+        
+    // }
+   
+    // registerButton.onclick = function(){
+    //     console.log(phInput.value);
+    //     console.log(pdInput.value);
+    //     //window.nodeCore
+    //     registerPage();
+    // }
+  
 
 }
